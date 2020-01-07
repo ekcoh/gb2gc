@@ -1,0 +1,129 @@
+{
+  "context": {
+    "date": "05/19/19 16:53:09",
+    "executable": "C:\Users\JaneDoe\experiment.exe",
+    "num_cpus": 8,
+    "mhz_per_cpu": 4008,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 8388608000,
+        "num_sharing": 8
+      }
+    ],
+    "library_build_type": "debug"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_GetForegroundWindow",
+      "iterations": 746667,
+      "real_time": 8.6183586522624421e+02,
+      "cpu_time": 8.5797952768771086e+02,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_GetWindowRect",
+      "iterations": 19478261,
+      "real_time": 3.5941324535945206e+01,
+      "cpu_time": 3.5295758692215898e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_IsWindowDisabled",
+      "iterations": 22400000,
+      "real_time": 3.1108450892653700e+01,
+      "cpu_time": 3.0691964285714285e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_IsWindowVisible",
+      "iterations": 21333333,
+      "real_time": 3.2913277076609845e+01,
+      "cpu_time": 3.2958984889984137e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_IsIconic",
+      "iterations": 22400000,
+      "real_time": 3.2089343749248656e+01,
+      "cpu_time": 3.2087053571428569e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_GetWindowLongPtrStyle",
+      "iterations": 19478261,
+      "real_time": 3.5311042397303126e+01,
+      "cpu_time": 3.5295758692215898e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_GetWindowLongPtrExStyle",
+      "iterations": 18666667,
+      "real_time": 3.6642497559230506e+01,
+      "cpu_time": 3.5993302928691023e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_SendMessage_WM_NCHITTEST",
+      "iterations": 89600,
+      "real_time": 4.6557679687404219e+04,
+      "cpu_time": 7.1498325892857147e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_WindowFromPoint",
+      "iterations": 49778,
+      "real_time": 1.3357163807455985e+04,
+      "cpu_time": 1.3183534894933504e+04,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ChildWindowFromPoint",
+      "iterations": 448000,
+      "real_time": 1.5282506696426676e+03,
+      "cpu_time": 1.5345982142857142e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_ChildWindowFromPointEx",
+      "iterations": 112000,
+      "real_time": 5.5269642858287880e+03,
+      "cpu_time": 5.4408482142857147e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_RealChildWindowFromPoint",
+      "iterations": 298667,
+      "real_time": 2.3022218725749422e+03,
+      "cpu_time": 2.3018947523496067e+03,
+      "time_unit": "ns"
+    },
+    {
+      "name": "BM_EnumerateWindows",
+      "iterations": 23579,
+      "real_time": 2.9277713219174842e+04,
+      "cpu_time": 2.9157300988167437e+04,
+      "time_unit": "ns"
+    }
+  ]
+}
