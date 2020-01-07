@@ -1,5 +1,5 @@
-#ifndef GB2GC_HTML_DOCUMENT_H
-#define GB2GC_HTML_DOCUMENT_H
+#ifndef GB2GC_DOCUMENT_H
+#define GB2GC_DOCUMENT_H
 
 #include <string>
 #include <functional>
@@ -7,7 +7,7 @@
 #include <sstream>
 #include <vector>
 
-namespace html
+namespace gb2gc
 {
 	// Forward declarations
 	struct format;
@@ -101,7 +101,7 @@ namespace html
 
 		inline indent indent(size_t level) const
 		{
-			return ::html::indent{ *this, level };
+			return ::gb2gc::indent{ *this, level };
 		}
 	};
 
@@ -114,6 +114,6 @@ namespace html
 		std::ostream& close_element(std::ostream& os, const format& fmt, size_t level, const element& e);
 		std::ostream& write(std::ostream& os, const format& fmt, const element& e, size_t level);
 	}
-}
+} // namespace gb2gc
 
-#endif
+#endif // GB2GC_DOCUMENT_H

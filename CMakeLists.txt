@@ -128,10 +128,9 @@ add_executable(${PROJECT_NAME}
 	"${CMAKE_CURRENT_LIST_DIR}/src/gbm2gc.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/options.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/selector.cpp"
-
-	"${CMAKE_CURRENT_LIST_DIR}/src/chart/chart.cpp"
-	"${CMAKE_CURRENT_LIST_DIR}/src/chart/data_set.cpp"
-	"${CMAKE_CURRENT_LIST_DIR}/src/chart/document.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/chart.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/data_set.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/document.cpp"
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)

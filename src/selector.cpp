@@ -2,7 +2,7 @@
 #define GBM2GC_SELECTOR_H
 
 #include "gbm2gc.h"
-#include "chart/variant.h"
+#include "variant.h"
 
 gbm2gc::selector::selector(const std::string& name) :
 	key_(name), param_index_((std::numeric_limits<unsigned>::max)())
@@ -15,7 +15,7 @@ gbm2gc::selector::selector(const std::string& name) :
 	}
 }
 
-html::variant
+gb2gc::variant
 gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
 {
 	auto node = benchmark.find(key_);
@@ -29,7 +29,7 @@ gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
 			auto splits = detail::split(node->get<std::string>(), '/');
 			auto param = splits[param_index_];
 			auto param_value = std::stold(param);
-			return html::variant(param_value);
+			return gb2gc::variant(param_value);
 		}
 
 		// strip prefix
@@ -38,12 +38,12 @@ gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
 		if (s.rfind(prefix, 0) == 0)
 		{
 			const auto plen = prefix.length();
-			return html::variant(s.substr(plen, s.length() - plen));
+			return gb2gc::variant(s.substr(plen, s.length() - plen));
 		}
 
-		return html::variant(s);
+		return gb2gc::variant(s);
 	}
-	return html::variant(node->get<long double>());
+	return gb2gc::variant(node->get<long double>());
 }
 
 const std::string&

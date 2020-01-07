@@ -1,7 +1,7 @@
 #include "chart.h"
 
 std::ostream& 
-html::operator<<(std::ostream& os, html::googlechart_options::position pos)
+gb2gc::operator<<(std::ostream& os, gb2gc::googlechart_options::position pos)
 {
 	switch (pos)
 	{
@@ -26,7 +26,7 @@ html::operator<<(std::ostream& os, html::googlechart_options::position pos)
 }
 
 std::ostream& 
-html::operator<<(std::ostream& os, googlechart_options::curve curve)
+gb2gc::operator<<(std::ostream& os, googlechart_options::curve curve)
 {
 	switch (curve)
 	{
@@ -41,7 +41,7 @@ html::operator<<(std::ostream& os, googlechart_options::curve curve)
 	return os;
 }
 
-void html::write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis)
+void gb2gc::write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis)
 {
 	const indent ind{ fmt, level };
 	const indent ind_opt{ fmt, level + 1 };
@@ -49,7 +49,7 @@ void html::write_axis(std::ostream& os, const format& fmt, size_t level, const a
 		os << ind_opt << "title: '" << axis.title << "',\n";
 }
 
-void html::write(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt)
+void gb2gc::write(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt)
 {
 	const indent ind{ fmt, level };
 	const indent ind_opt{ fmt, level + 1 };
@@ -83,7 +83,7 @@ void html::write(std::ostream& os, const format& fmt, size_t level, const google
 }
 
 template<>
-void html::write<html::data_set>(std::ostream& os, const format& fmt, size_t level, const data_set& ds)
+void gb2gc::write<gb2gc::data_set>(std::ostream& os, const format& fmt, size_t level, const data_set& ds)
 {
 	const indent ind{ fmt, level };
 	const indent ind_label{ fmt, level + 1 };

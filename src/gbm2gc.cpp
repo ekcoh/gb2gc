@@ -1,7 +1,7 @@
 #include "gbm2gc.h"
 
 #include <nlohmann/json.hpp>
-#include "chart/chart.h"
+#include "chart.h"
 
 #include <iostream>
 #include <unordered_set>
@@ -210,10 +210,10 @@ series_object make_series(const nlohmann::json::const_iterator bm_begin,
 	return so;
 }
 
-html::data_set
+gb2gc::data_set
 gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 {
-    html::data_set ds;
+    gb2gc::data_set ds;
 
 	auto benchmarks = bm_result.find("benchmarks");
 	if (benchmarks == bm_result.end())
@@ -240,7 +240,7 @@ gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 	// Use selectors to create columns in data set representing series
 	// and extract all distinct key values from series benchmarks and resize
 	// the data set based on number of rows
-	std::vector<html::variant> distinct_key_values;
+	std::vector<gb2gc::variant> distinct_key_values;
 	ds.add_column("Key");
 	for (auto& series : so.series)
 	{
@@ -289,10 +289,10 @@ gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 }
 
 void 
-gbm2gc::write_chart(const options& options, const html::data_set& data_set)
+gbm2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
 {
 	// Generate chart
-    html::googlechart gc;
+    gb2gc::googlechart gc;
 	gc.options = options.chart_options();
 	gc.type = options.chart_type();
 	/*gc.options.title = title;
@@ -306,10 +306,10 @@ gbm2gc::write_chart(const options& options, const html::data_set& data_set)
 	//if (gc.options.vertical_axis.title.empty())
 	//	gc.options.vertical_axis.title = y_axis_title;
 
-	if (options.chart_type() == html::googlechart::visualization::bar)
+	if (options.chart_type() == gb2gc::googlechart::visualization::bar)
 		std::swap(gc.options.vertical_axis, gc.options.horizontal_axis);
 
-    html::googlechart_dom_options dom_options = options.dom_options();
+    gb2gc::googlechart_dom_options dom_options = options.dom_options();
 
 	std::string chart_div = options.out_file();
 	std::replace(chart_div.begin(), chart_div.end(), '\\', '/');

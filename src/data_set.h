@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace html
+namespace gb2gc
 {
 	class data_set
 	{
@@ -430,15 +430,15 @@ namespace html
 		data_type columns_;
 	};
 
-	std::ostream& operator<<(std::ostream& os, const ::html::data_set::const_row_iterator& rit);
+	std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set::const_row_iterator& rit);
 
 	//inline std::ostream& operator<<(std::ostream& os, const html::data_set::const_row_value_iterator& it)
 	//{
 	//	
 	//}
 
-	std::ostream& operator<<(std::ostream& os, const ::html::data_set& ds);
+	std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set& ds);
 		
-} // namespace html
+} // namespace gb2gc
 
-#endif // GB2GC_HTML_DATASET_H
+#endif // GB2GC_DATASET_H

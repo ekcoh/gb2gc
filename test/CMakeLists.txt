@@ -3,18 +3,16 @@ add_executable(${PROJECT_NAME}_unit_tests
 	"${PROJECT_SOURCE_DIR}/src/gbm2gc.cpp"
 	"${PROJECT_SOURCE_DIR}/src/selector.cpp"
 	"${PROJECT_SOURCE_DIR}/src/options.cpp"
-
-	"${PROJECT_SOURCE_DIR}/src/chart/chart.cpp"
-	"${PROJECT_SOURCE_DIR}/src/chart/data_set.cpp"
-	"${PROJECT_SOURCE_DIR}/src/chart/document.cpp"
+	"${PROJECT_SOURCE_DIR}/src/chart.cpp"
+	"${PROJECT_SOURCE_DIR}/src/data_set.cpp"
+	"${PROJECT_SOURCE_DIR}/src/document.cpp"
 	
 	"main.cpp" 
 	"gbm2gc_test.cpp"
 	"options_test.cpp"
 	"selector_test.cpp"
-
-	"chart/chart_test.cpp"
-	"chart/data_set_test.cpp"
+	"chart_test.cpp"
+	"data_set_test.cpp"
 )
 
 target_compile_features(${PROJECT_NAME}_unit_tests PRIVATE cxx_std_11)

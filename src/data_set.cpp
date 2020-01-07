@@ -1,7 +1,7 @@
 #include "data_set.h"
 
-std::ostream& html::operator<<(
-	std::ostream& os, const html::data_set::const_row_iterator& rit)
+std::ostream& gb2gc::operator<<(
+	std::ostream& os, const gb2gc::data_set::const_row_iterator& rit)
 {
 	auto it = rit.begin();
 	const auto end = rit.end();
@@ -17,8 +17,8 @@ std::ostream& html::operator<<(
 	return os;
 }
 
-std::ostream& html::operator<<(
-	std::ostream& os, const html::data_set& ds)
+std::ostream& gb2gc::operator<<(
+	std::ostream& os, const gb2gc::data_set& ds)
 {
 	const auto cols = ds.cols();
 	const auto rows = ds.rows();

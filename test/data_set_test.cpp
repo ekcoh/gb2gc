@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include "chart/data_set.h"
+#include "data_set.h"
 
-using namespace html;
+using namespace gb2gc;
 
 class data_set_test : public ::testing::Test
 {

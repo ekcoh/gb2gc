@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
-#include "chart/chart.h"
 
-using namespace html;
+#include "chart.h"
+
+using namespace gb2gc;
 
 class chart_test : public ::testing::Test
 {

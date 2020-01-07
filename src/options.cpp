@@ -88,19 +88,19 @@ gbm2gc::options::has_filter() const
 	return !filter_.empty();
 }
 
-const html::googlechart_dom_options&
+const gb2gc::googlechart_dom_options&
 gbm2gc::options::dom_options() const
 {
 	return gc_dom_options_;
 }
 
-const html::googlechart_options&
+const gb2gc::googlechart_options&
 gbm2gc::options::chart_options() const
 {
 	return gc_options_;
 }
 
-const html::googlechart::visualization
+const gb2gc::googlechart::visualization
 gbm2gc::options::chart_type() const
 {
 	return gc_type_;
@@ -136,13 +136,13 @@ int
 gbm2gc::options::parse_chart_type(const char* arg)
 {
 	if (strcmp(arg, "bar") == 0)
-		this->gc_type_ = html::googlechart::visualization::bar;
+		this->gc_type_ = gb2gc::googlechart::visualization::bar;
 	else if (strcmp(arg, "histogram") == 0)
-		this->gc_type_ = html::googlechart::visualization::histogram;
+		this->gc_type_ = gb2gc::googlechart::visualization::histogram;
 	else if (strcmp(arg, "line") == 0)
-		this->gc_type_ = html::googlechart::visualization::line;
+		this->gc_type_ = gb2gc::googlechart::visualization::line;
 	else if (strcmp(arg, "scatter") == 0)
-		this->gc_type_ = html::googlechart::visualization::scatter;
+		this->gc_type_ = gb2gc::googlechart::visualization::scatter;
 	else
 		return show_error("Invalid chart type value: '" + std::string(arg) + "'\n");
 	return 0;
@@ -152,15 +152,15 @@ int
 gbm2gc::options::parse_legend(const char* arg)
 {
 	if (strcmp(arg, "none") == 0)
-		this->gc_options_.legend = html::googlechart_options::position::none;
+		this->gc_options_.legend = gb2gc::googlechart_options::position::none;
 	else if (strcmp(arg, "left") == 0)
-		this->gc_options_.legend = html::googlechart_options::position::left;
+		this->gc_options_.legend = gb2gc::googlechart_options::position::left;
 	else if (strcmp(arg, "top") == 0)
-		this->gc_options_.legend = html::googlechart_options::position::top;
+		this->gc_options_.legend = gb2gc::googlechart_options::position::top;
 	else if (strcmp(arg, "right") == 0)
-		this->gc_options_.legend = html::googlechart_options::position::right;
+		this->gc_options_.legend = gb2gc::googlechart_options::position::right;
 	else if (strcmp(arg, "bottom") == 0)
-		this->gc_options_.legend = html::googlechart_options::position::bottom;
+		this->gc_options_.legend = gb2gc::googlechart_options::position::bottom;
 	else
 		return show_error("Invalid chart type value: '" + std::string(arg) + "'\n");
 	return 0;
@@ -188,7 +188,7 @@ int gbm2gc::options::parse(int argc, const char* argv[])
 	if (argc <= 0)
 		return show_error("Missing command-line arguments.");
 
-	using type = html::googlechart::visualization;
+	using type = gb2gc::googlechart::visualization;
 
 	option opts[] =
 	{

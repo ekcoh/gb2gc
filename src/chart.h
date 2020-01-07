@@ -1,5 +1,5 @@
-#ifndef GB2GC_HTML_CHART_H
-#define GB2GC_HTML_CHART_H
+#ifndef GB2GC_CHART_H
+#define GB2GC_CHART_H
 
 #include "document.h"
 #include "data_set.h"
@@ -13,7 +13,7 @@
 #include <ctime>
 
 // TODO Consider https://stackoverflow.com/questions/41893055/add-subtitle-in-areachart-in-google-chart
-namespace html
+namespace gb2gc
 {
 	///////////////////////////////////////////////////////////////////////////////////////
 	// color
@@ -635,6 +635,6 @@ namespace html
 					
 		}
 	};
-}
+} // namespace gb2gc
 
-#endif // GB2GC_HTML_CHART_H
+#endif // GB2GC_CHART_H
