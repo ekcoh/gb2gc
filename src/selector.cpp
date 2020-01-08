@@ -7,7 +7,7 @@
 gbm2gc::selector::selector(const std::string& name) :
 	key_(name), param_index_((std::numeric_limits<unsigned>::max)())
 {
-	auto splits = detail::split(name, '/');
+	auto splits = split(name, '/');
 	if (splits.size() == 2)
 	{
 		key_ = splits[0];
@@ -26,7 +26,7 @@ gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
 		// extract benchmark parameter if parameterized selector
 		if (is_parameterized())
 		{
-			auto splits = detail::split(node->get<std::string>(), '/');
+			auto splits = split(node->get<std::string>(), '/');
 			auto param = splits[param_index_];
 			auto param_value = std::stold(param);
 			return gb2gc::variant(param_value);
@@ -66,7 +66,7 @@ gbm2gc::selector::param_index() const
 
 // TODO MOVE
 std::vector<std::string>
-gbm2gc::detail::split(const std::string& s, char delimiter)
+gbm2gc::split(const std::string& s, char delimiter)
 {
 	std::vector<std::string> tokens;
 	if (!s.empty())

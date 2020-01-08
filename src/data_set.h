@@ -2,21 +2,44 @@
 #define GB2GC_DATASET_H
 
 #include "variant.h"
-#include "type_traits.h"
+//#include "type_traits.h"
 
 #include <vector>
+#include <type_traits>
 
 namespace gb2gc
 {
+   template<typename T, typename = void>
+   struct is_iterator
+   {
+      static constexpr bool value = false;
+   };
+
+   template<typename T>
+   struct is_iterator<T, typename std::enable_if<
+         !std::is_same<typename std::iterator_traits<T>::value_type, void>::value
+      >::type>
+   {
+      static constexpr bool value = true;
+   };
+
 	class data_set
 	{
 	public:
 		struct column_type;
 
-		//using column_type = std::vector<variant>;
 		using data_type = std::vector<column_type>;
 		using column_iterator = data_type::iterator;
 		using const_column_iterator = data_type::const_iterator;
+
+      std::vector<std::string> series() const
+      {
+         std::vector<std::string> series;
+         series.reserve(cols());
+         for (auto& col : columns())
+            series.emplace_back(col.name());
+         return series;
+      }
 
 		struct column_type
 		{
@@ -121,21 +144,6 @@ namespace gb2gc
 			size_t row_;
 		};
 
-		std::vector<std::string> series() const
-		{
-			std::vector<std::string> series;
-			series.reserve(cols());
-			for (auto& col : columns())
-				series.emplace_back(col.name());
-			return series;
-		}
-
-		template<class DataSetPtr>
-		struct row_iterator_base
-		{
-
-		};
-
 		struct const_row_iterator
 		{
 			using value_type = const_row_value_iterator;
@@ -162,7 +170,6 @@ namespace gb2gc
 			const variant& operator[](size_t column_index) const
 			{
 				return ds_->columns_[column_index][ri_];
-				//return ds_->get_col(column_index)[ri_];
 			}
 
 			const_row_iterator operator++()
@@ -321,7 +328,10 @@ namespace gb2gc
 			return columns_[index];
 		}
 
-		const data_type& columns() const { return columns_; }
+		const data_type& columns() const 
+      { 
+         return columns_; 
+      }
 
 		column_type& get_col(size_t index)
 		{
@@ -398,17 +408,7 @@ namespace gb2gc
 			}
 		}
 
-		//column_type& operator[](size_t column_index)
-		//{
-		//	return data_[column_index];
-		//}
-
-		//void sort(size_t col_index)
-		//{
-		//	// TODO Find sort order for one vector and sort others based on the same
-		//	// ... or sort using row iterators
-		//	//std::sort(row_begin(), row_end(), [](const variant))
-		//}
+      // TODO Consider implementing sort(size_t col_index) 
 
 	private:
 		template<class T, class... Args>
@@ -431,12 +431,6 @@ namespace gb2gc
 	};
 
 	std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set::const_row_iterator& rit);
-
-	//inline std::ostream& operator<<(std::ostream& os, const html::data_set::const_row_value_iterator& it)
-	//{
-	//	
-	//}
-
 	std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set& ds);
 		
 } // namespace gb2gc

@@ -9,7 +9,7 @@ class gbm2gc_options_test : public ::testing::Test
 public:
 	void SetUp()
 	{
-		
+        // Currently empty
 	}
 
 	options opt;
@@ -19,7 +19,7 @@ public:
 
 const char* gbm2gc_options_test::valid_args_required_last[] =
 {
-	"gbm2gc.exe",
+	"gbm2gc",
 	"-h", "720",
 	"-w", "480",
 	"-t", "my title",
@@ -30,7 +30,7 @@ const char* gbm2gc_options_test::valid_args_required_last[] =
 
 const char* gbm2gc_options_test::valid_args_required_first[] =
 {
-	"gbm2gc.exe",
+	"gbm2gc",
 	"-c", "line",
 	"-i", "input_file",
 	"-o", "output_file",

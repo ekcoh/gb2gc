@@ -10,34 +10,41 @@ class gbm2gc_generator_test : public ::testing::Test
 public:
 	void SetUp()
 	{
-		
+      file = "out_file" + std::to_string(++file_name_no);
 	}
 
 	void TearDown()
 	{
-		//std::remove(out_file);
+      std::remove(file.c_str());
 	}
 
-	static constexpr char* out_file = "out_file.html";
+   bool file_exists()
+   {
+      std::ifstream f(file);
+      return f.good();
+   }
 
-	options opt;
-	static const char* valid_args_required_first[];
-	static const char* valid_args_required_last[];
+    options         opt;
+    std::string     file;
+    static unsigned file_name_no;
 };
+
+unsigned gbm2gc_generator_test::file_name_no = 0u;
 
 TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input)
 {
 	const char* args[] =
 	{
-		"gbm2gc.exe",
+      "gbm2gc.exe",
 		"-i",
-		"simple_bm.json",
+		"benchmark1.json",
 		"-o",
-		"line_chart.html",
+      file.c_str(),
 		"-c", "line"
 	};
 
 	EXPECT_EQ(gbm2gc::run(7, args), 0);
+   EXPECT_TRUE(file_exists());
 }
 
 TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input_with_selector)
@@ -46,9 +53,9 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid
 	{
 		"gbm2gc.exe",
 		"-i",
-		"simple_bm.json",
+		"benchmark1.json",
 		"-o",
-		"line_chart.html",
+      file.c_str(),
 		"-c", "line",
 		"-l", "right",
 		"-s", "name/2", "bytes_per_second",
@@ -57,6 +64,7 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid
 	};
 
 	EXPECT_EQ(gbm2gc::run(16, args), 0);
+   EXPECT_TRUE(file_exists());
 }
 
 
@@ -67,9 +75,9 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_
 		"gbm2gc.exe",
 		"-c", "bar",
 		"-i",
-		"window_functions.txt",
+		"benchmark2.json",
 		"-o",
-		"bar_chart.html",
+      file.c_str(),
 		"-t",
 		"Bar chart test title",
 		"-x", "X-axis",
@@ -80,22 +88,3 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_
 	EXPECT_EQ(gbm2gc::run(15, args), 0);
 }
 
-//TEST_F(gbm2gc_generator_test, run__should_be_successful__gaze_scenario)
-//{
-//	const char* args[] =
-//	{
-//		"gbm2gc.exe",
-//		"-i",
-//		"gaze_scenario.txt",
-//		"-f", "BM_fixation_scenario/64/*/50/50/90/10/*",
-//		"-o", "gaze.html",
-//		"-c", "line",
-//		"-l", "right",
-//		"-s", "name/2", "utilization",
-//		"-x", "Scale Ratio",
-//		"-y", "Cache Utilization",
-//		"-t", "Cache Utilization As a Function of Scale Ratio For Varying Validity Duration"
-//	};
-//
-//	EXPECT_EQ(gbm2gc::run(20, args), 0);
-//}

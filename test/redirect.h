@@ -3,6 +3,7 @@
 
 #include <ostream>
 
+// Simple ostream redirect RAII guard
 struct redirect_guard
 {
 	redirect_guard(std::ostream& target, std::streambuf * new_buffer)

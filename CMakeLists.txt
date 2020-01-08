@@ -1,8 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
 ###################################################################################################
-# Download and unpack googletest at configure time
-
+# Download and unpack Google test  at configure time
 configure_file(external/gtest/CMakeLists.txt.in external/gtest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
@@ -27,13 +26,8 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/gtest-src
                  ${CMAKE_BINARY_DIR}/external/gtest-build
                  EXCLUDE_FROM_ALL)
 
-#set(GTEST_ROOT "${CMAKE_BINARY_DIR}/external/googletest-src")
-#set(GTEST_INCLUDE_DIR "${CMAKE_BINARY_DIR}/external/googletest-src/googletest/include")
-#set(GTEST_LIBRARY "${CMAKE_BINARY_DIR}/external/googletest-build/googlemock/gtest/gtest")
-#set(GTEST_MAIN_LIBRARY "${CMAKE_BINARY_DIR}/external/googletest-build/googlemock/gtest/gtest_main")
-
 ###################################################################################################
-# Download and unpack googlebenchmark at configure time
+# Download and unpack Google Benchmark at configure time
 configure_file(external/benchmark/CMakeLists.txt.in external/benchmark-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
@@ -49,24 +43,13 @@ if(result)
 endif()
 
 set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-#set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
 
-# TODO How the heck to we build benchmark with CMAKE_BUILD_TYPE=Release
-
-#set(BENCHMARK_DOWNLOAD_DEPENDENCIES ON)
-
-# Prevent overriding the parent project's compiler/linker
-# settings on Windows
-#set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
 add_subdirectory(${CMAKE_BINARY_DIR}/external/benchmark-src
                  ${CMAKE_BINARY_DIR}/external/benchmark-build
                  EXCLUDE_FROM_ALL)
 
 ###################################################################################################
-# Download and unpack json at configure time
+# Download and unpack JSON parser at configure time
 configure_file(external/json/CMakeLists.txt.in external/json-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
@@ -83,13 +66,10 @@ endif()
 
 set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
 set(JSON_Install OFF CACHE BOOL "" FORCE)
-#set(JSON_BuildTests OFF CACHE INTERNAL "")
-#set(JSON_Install OFF CACHE INTERNAL "")
 
 add_subdirectory(${CMAKE_BINARY_DIR}/external/json-src
                  ${CMAKE_BINARY_DIR}/external/json-build
                  EXCLUDE_FROM_ALL)
-#add_subdirectory(${CMAKE_BINARY_DIR}/external/json-src)
 
 ###################################################################################################
 # Download and unpack variant-lite at configure time
@@ -111,10 +91,7 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/variant_lite-src
                  ${CMAKE_BINARY_DIR}/external/variant_lite-build
                  EXCLUDE_FROM_ALL)
 
-# enable_testing()
-
-#set (GTEST_ROOT "${CMAKE_BINARY_DIR}/external/googlebenchmark-src")
-
+# GB2GC (Google Benchmark To Google Chart)
 project(gbm2gc
 	VERSION 0.0.0
 	DESCRIPTION "Basic tool written in C++11 to convert Google Benchmark json output to Google Charts"

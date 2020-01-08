@@ -2,15 +2,15 @@
 
 struct option
 {
-    using parser = std::function<int(const gbm2gc::span<const char*>& args)>;
+   using parser = std::function<int(const gbm2gc::span<const char*>& args)>;
 
-	char     flag;
-	bool     required;
-	unsigned group;
-	bool     need_arg;
-	bool     parsed;
-	int      occurance;
-    parser   parse;
+	char     flag;       // option flag
+	bool     required;   // is required option?
+	unsigned group;      // is option part of a group with id
+	bool     need_arg;   // is this option followed by an argument
+	bool     parsed;     // has option already been parsed?
+	int      occurance;  // number of occurrences
+   parser   parse;      // the function which parses the option
 };
 
 bool operator==(const option& o1, const option& o2)
@@ -58,7 +58,7 @@ const std::vector<gbm2gc::selector> gbm2gc::options::default_selectors(
 { 
 	selector("name"),		// X (key)
 	selector("cpu_time"),	// Y
-	selector("real_time")	// Z
+   selector("real_time")	// Z
 }); 
 
 gbm2gc::options::options() 

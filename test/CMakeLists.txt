@@ -1,3 +1,4 @@
+# Unit test executable
 add_executable(${PROJECT_NAME}_unit_tests 
 	"${PROJECT_SOURCE_DIR}/src/gbm2gc.h"
 	"${PROJECT_SOURCE_DIR}/src/gbm2gc.cpp"
@@ -24,9 +25,6 @@ if(MSVC)
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 	target_compile_options(${PROJECT_NAME}_unit_tests  PRIVATE /W4 /WX)
-
-	# Generate assembly for reviewing if needed
-	# target_compile_options(hitlib PRIVATE /FAscu /Fa )
 else(MSVC)
 	target_compile_options(${PROJECT_NAME}_unit_tests PRIVATE -Wall -Wextra -pedantic -Werror)
 endif(MSVC)
@@ -44,33 +42,12 @@ target_link_libraries(${PROJECT_NAME}_unit_tests
 # Copy json files for test to test directory
 add_custom_command(TARGET ${PROJECT_NAME}_unit_tests POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/simple_bm.json"
+        "${CMAKE_CURRENT_SOURCE_DIR}/benchmark1.json"
         $<TARGET_FILE_DIR:${PROJECT_NAME}_unit_tests>)
 
 add_custom_command(TARGET ${PROJECT_NAME}_unit_tests POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        "${CMAKE_CURRENT_SOURCE_DIR}/window_functions.txt"
+        "${CMAKE_CURRENT_SOURCE_DIR}/benchmark2.json"
         $<TARGET_FILE_DIR:${PROJECT_NAME}_unit_tests>)
 
 add_test(NAME ${PROJECT_NAME}_unit_tests COMMAND ${PROJECT_NAME}_unit_tests )
-
-#enable_testing()
-
-# Add test binary as code coverage target
-#target_code_coverage(${PROJECT_NAME}_unit_tests 
-#	TARGET_SOURCES ${PROJECT_NAME}
-#	SOURCE_BASE_DIR ${PROJECT_SOURCE_DIR}
-#)
-#get_target_property(GBM2GC_SOURCES ${PROJECT_NAME} SOURCES)
-#list
-#message("GBM2GC_SOURCES=${GBM2GC_SOURCES}")
-#add_code_coverage(
-#	TARGET ${PROJECT_NAME}_unit_tests
-#	SOURCES ${GBM2GC_SOURCES}
-#)
-# Add test binary as code coverage target
-#add_code_coverage(
-#	TARGET ${PROJECT_NAME}_unit_tests
-#	SOURCES $<TARGET_PROPERTY:${PROJECT_NAME},SOURCES>
-#		"${PROJECT_SOURCE_DIR}/src/*"
-#)

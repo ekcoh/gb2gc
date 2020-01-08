@@ -1,16 +1,13 @@
 #include <gtest/gtest.h>
+
 #include "gbm2gc.h"
 
 using namespace gbm2gc;
 
+const char* benchmark1 = "benchmark1.json";
+
 class gbm2gc_selector_test : public ::testing::Test
-{
-public:
-	void SetUp()
-	{
-		
-	}
-};
+{ };
 
 TEST_F(gbm2gc_selector_test, 
 	is_parameterized__should_be_true__if_parameterized)
@@ -34,7 +31,7 @@ TEST_F(gbm2gc_selector_test,
 TEST_F(gbm2gc_selector_test, 
 	function_operator__should_return_indexed_parameter_value__if_valid_benchmark)
 {
-	auto bm_json = parse_json("simple_bm.json");
+	auto bm_json = parse_json(benchmark1);
 	auto benchmarks = bm_json.find("benchmarks");
 
 	selector s1("name/1");
@@ -49,7 +46,7 @@ TEST_F(gbm2gc_selector_test,
 TEST_F(gbm2gc_selector_test,
 	function_operator__should_return_stripped_parameter_value__if_valid_benchmark_and_key_is_name)
 {
-	auto bm_json = parse_json("simple_bm.json");
+	auto bm_json = parse_json(benchmark1);
 	auto benchmarks = bm_json.find("benchmarks");
 
 	selector s1("name");
@@ -60,7 +57,7 @@ TEST_F(gbm2gc_selector_test,
 TEST_F(gbm2gc_selector_test,
 	function_operator__should_return_parameter_value__if_valid_benchmark_and_regular_key)
 {
-	auto bm_json = parse_json("simple_bm.json");
+	auto bm_json = parse_json(benchmark1);
 	auto benchmarks = bm_json.find("benchmarks");
 
 	selector s1("cpu_time");
@@ -71,7 +68,7 @@ TEST_F(gbm2gc_selector_test,
 TEST_F(gbm2gc_selector_test,
 	function_operator__should_throw__if_non_existent_key)
 {
-	auto bm_json = parse_json("simple_bm.json");
+	auto bm_json = parse_json(benchmark1);
 	auto benchmarks = bm_json.find("benchmarks");
 
 	selector s("non_existent/1");

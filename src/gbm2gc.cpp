@@ -15,8 +15,7 @@ int gbm2gc::run(int argc, const char* argv[])
 	if (err)
 		return err;
 	write_chart(options, parse_data(options, parse_json(options.in_file())));
-	return 0;
-	//return gbm2gc::generator{}(options);
+	return 0; // success
 }
 
 nlohmann::json gbm2gc::parse_json(const std::string& file)
@@ -40,14 +39,6 @@ nlohmann::json gbm2gc::parse_json(const std::string& file)
 
 	return nlohmann::json::parse(content);
 }
-
-//int gbm2gc::generator::operator()(const options& options)
-//{
-//	write_chart(options, parse_data(options, parse(options.in_file())));
-//	return 0;
-//	//return operator()(options, parse(options.in_file()));
-//}
-
 
 std::string make_title(const std::string title)
 {
@@ -83,8 +74,6 @@ struct series
 struct series_object
 {
 	std::vector<series> series;
-	//std::unordered_map<const nlohmann::json*, std::string> bm2s;
-	//std::map<std::string, std::vector<nlohmann::json::const_iterator>> s2bm;
 };
 
 // Default key selector differentiating on name
@@ -100,22 +89,6 @@ gbm2gc::selector* find_key(std::vector<gbm2gc::selector>& selectors)
 	return &*key;
 }
 
-//bool accept(const std::vector<std::string>& filter, const std::vector<std::string>& values)
-//{
-//	for (auto i = 0u; i < values.size() && i < filter.size(); ++i)
-//	{
-//		const auto& filter_value = filter[i];
-//		if (filter_value != "*")
-//		{
-//			if (filter_value != values[i])
-//			{
-//				return false; // no match
-//			}
-//		}
-//	}
-//	return true; // match
-//}
-
 std::vector<std::string>
 split_attribute(const nlohmann::json::const_iterator bm, const std::string& attribute)
 {
@@ -124,7 +97,7 @@ split_attribute(const nlohmann::json::const_iterator bm, const std::string& attr
 		throw std::exception(); // TODO Carry message?!
 	if (!name->is_string())
 		throw std::exception(); // TODO Carry message?!
-	return gbm2gc::detail::split(name->get<std::string>(), '/');
+	return gbm2gc::split(name->get<std::string>(), '/');
 }
 
 bool accept(const nlohmann::json::const_iterator bm, const std::vector<std::string>& filter_splits)
@@ -149,7 +122,7 @@ series_object make_series(const nlohmann::json::const_iterator bm_begin,
 {
 	series_object so;
 
-	std::vector<std::string> filter_splits = gbm2gc::detail::split(filter, '/');
+	std::vector<std::string> filter_splits = gbm2gc::split(filter, '/');
 
 	std::string row;
 	for (auto it = bm_begin; it != bm_end; ++it)
@@ -210,8 +183,7 @@ series_object make_series(const nlohmann::json::const_iterator bm_begin,
 	return so;
 }
 
-gb2gc::data_set
-gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
+gb2gc::data_set gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 {
     gb2gc::data_set ds;
 
@@ -288,168 +260,24 @@ gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 	return ds;
 }
 
-void 
-gbm2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
+void gbm2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
 {
 	// Generate chart
-    gb2gc::googlechart gc;
+   gb2gc::googlechart gc;
 	gc.options = options.chart_options();
 	gc.type = options.chart_type();
-	/*gc.options.title = title;
-	if (!subtitle.empty())
-		gc.options.title += "\\n" + subtitle;
-	if (legend || benchmarks.begin()->second.series.size() > 1)
-		gc.options.legend = chart::googlechart_options::position::right;
-	gc.options.data_opacity = 1.0f;*/
-	//if (gc.options.horizontal_axis.title.empty())
-	//	gc.options.horizontal_axis.title = x_axis_title;
-	//if (gc.options.vertical_axis.title.empty())
-	//	gc.options.vertical_axis.title = y_axis_title;
-
+	
 	if (options.chart_type() == gb2gc::googlechart::visualization::bar)
 		std::swap(gc.options.vertical_axis, gc.options.horizontal_axis);
 
-    gb2gc::googlechart_dom_options dom_options = options.dom_options();
+   gb2gc::googlechart_dom_options dom_options = options.dom_options();
 
 	std::string chart_div = options.out_file();
 	std::replace(chart_div.begin(), chart_div.end(), '\\', '/');
-	auto path_splits = detail::split(chart_div, '/');
-	auto filename_splits = detail::split(path_splits[path_splits.size() - 1], '.');
+	auto path_splits = split(chart_div, '/');
+	auto filename_splits = split(path_splits[path_splits.size() - 1], '.');
 	chart_div = filename_splits[0] + "_div";
 	dom_options.div = chart_div;
 
 	gc.write_html_file(options.out_file().c_str(), data_set, dom_options);
 }
-
-///////////////////////////////////
-//
-//int gbm2gc::generator::operator()(const options& options, const nlohmann::json& bm_result)
-//{
-//	auto benchmarks = bm_result.find("benchmarks");
-//	if (benchmarks == bm_result.end())
-//	{
-//		std::cerr << "Error: Could not find 'benchmarks' element in given JSON source.\n";
-//		return 1;
-//	}
-//
-//	// Get selectors from options or populate with default selectors if not specified
-//	std::vector<selector> selectors = options.selectors();
-//	if (selectors.empty())
-//	{
-//		selectors.push_back(selector("name"));      // X (key)
-//		selectors.push_back(selector("cpu_time"));  // Y
-//		selectors.push_back(selector("real_time")); // Z
-//	}
-//
-//	// Make series from available benchmarks and selector. 
-//	// This basically creates a map of {series, benchmarks} based on set of
-//	// selectors where each unique name makes an individual key using name selectors
-//	// as wildcards for pattern matching.
-//	auto so = make_series(benchmarks->begin(), benchmarks->end(), selectors, options.filter());
-//
-//	//switch (options.chart_type())
-//	//{
-//	//case chart::googlechart::visualization::bar:
-//	//	x_axis_title = "Time (nanoseconds)"; // TODO Select unit
-//	//	y_axis_title = x_selector; // TODO Select unit
-//	//	break;
-//	//default:
-//	//	x_axis_title = x_selector;
-//	//	y_axis_title = y_selector;
-//	//}
-//
-//	//auto key = find_key(selectors);
-//
-//	// Use selectors to create columns in data set representing series
-//	// and extract all distinct key values from series benchmarks and resize
-//	// the data set based on number of rows
-//	std::vector<chart::variant> distinct_key_values;
-//	chart::data_set ds;
-//	ds.add_column("Key");
-//	for (auto& series : so.series)
-//	{
-//		for (auto i = 1u; i < selectors.size(); ++i)
-//		{
-//			ds.add_column(series.name + " " + selectors[i].key());
-//		}
-//
-//		for (auto& bm : series.benchmarks)
-//		{
-//			auto key_value = selectors[0](*bm);
-//			if (std::find(distinct_key_values.begin(), distinct_key_values.end(), key_value) == distinct_key_values.end())
-//				distinct_key_values.emplace_back(key_value);
-//		}
-//	}
-//	std::sort(distinct_key_values.begin(), distinct_key_values.end());
-//	ds.resize_rows(distinct_key_values.size());
-//
-//	// Find and extract all distinct key values and resize data set based on number of rows
-//	//std::vector<chart::variant> distinct_key_values;
-//	//for (auto& bm : *benchmarks)
-//	//{
-//	//	auto key_value = selectors[0](bm);
-//	//	if (std::find(distinct_key_values.begin(), distinct_key_values.end(), key_value) == distinct_key_values.end())
-//	//		distinct_key_values.emplace_back(key_value);
-//	//}
-//	//std::sort(distinct_key_values.begin(), distinct_key_values.end());
-//	//ds.resize_rows(distinct_key_values.size());
-//
-//	for (auto row_index = 0u; row_index < distinct_key_values.size(); ++row_index)
-//	{
-//		// Insert key (x) value
-//		ds.get_col(0)[row_index] = distinct_key_values[row_index];
-//
-//		// Insert other values
-//		auto column_index = 1u;
-//		for (auto& series : so.series)
-//		{
-//			// Find benchmark corresponding to current row
-//			auto find = std::find_if(series.benchmarks.begin(), series.benchmarks.end(),
-//				[&](const nlohmann::json::const_iterator& it) 
-//			{ 
-//				return selectors[0](*it) == distinct_key_values[row_index]; 
-//			});
-//			if (find == series.benchmarks.end())
-//				continue; // TODO Handle
-//
-//			for (auto i = 1u; i < selectors.size(); ++i)
-//			{
-//				ds.get_col(column_index)[row_index] = selectors[i](*(*find));
-//				++column_index;
-//			}
-//		}
-//	}
-//
-//	// Generate chart
-//	chart::googlechart gc;
-//	gc.options = options.chart_options();
-//	gc.type = options.chart_type();
-//	/*gc.options.title = title;
-//	if (!subtitle.empty())
-//		gc.options.title += "\\n" + subtitle;
-//	if (legend || benchmarks.begin()->second.series.size() > 1)
-//		gc.options.legend = chart::googlechart_options::position::right;
-//	gc.options.data_opacity = 1.0f;*/
-//	//if (gc.options.horizontal_axis.title.empty())
-//	//	gc.options.horizontal_axis.title = x_axis_title;
-//	//if (gc.options.vertical_axis.title.empty())
-//	//	gc.options.vertical_axis.title = y_axis_title;
-//	
-//	if (options.chart_type() == chart::googlechart::visualization::bar)
-//	{
-//		std::swap(gc.options.vertical_axis, gc.options.horizontal_axis);
-//	}
-//	
-//	chart::googlechart_dom_options dom_options = options.dom_options();
-//	
-//	std::string chart_div = options.out_file();
-//	std::replace(chart_div.begin(), chart_div.end(), '\\', '/');
-//	auto path_splits = detail::split(chart_div, '/');
-//	auto filename_splits = detail::split(path_splits[path_splits.size() - 1], '.');
-//	chart_div = filename_splits[0] + "_div";
-//	dom_options.div = chart_div;
-//
-//	gc.write_html_file(options.out_file().c_str(), ds, dom_options);
-//
-//	return 0;
-//}

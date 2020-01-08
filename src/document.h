@@ -13,8 +13,8 @@ namespace gb2gc
 	struct format;
 
 	/**
-		* @brief Represents a basic DOM element
-		*/
+    * @brief Represents a basic DOM element
+	 */
 	class element
 	{
 	public:

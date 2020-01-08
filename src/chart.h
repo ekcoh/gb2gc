@@ -13,18 +13,12 @@
 #include <ctime>
 
 // TODO Consider https://stackoverflow.com/questions/41893055/add-subtitle-in-areachart-in-google-chart
+
 namespace gb2gc
 {
-	///////////////////////////////////////////////////////////////////////////////////////
-	// color
-	///////////////////////////////////////////////////////////////////////////////////////
-
 	struct color
 	{
 		using byte = unsigned char;
-
-		static constexpr color turquoise() { return color{ 0x01, 0xbe, 0xff }; } // turquoise
-		static constexpr color green() { return color{ 0x3a, 0xf2, 0xa2 }; } // light green
 
 		byte r;
 		byte g;
@@ -68,14 +62,14 @@ namespace gb2gc
 			function
 		};
 
-		std::string title;
-		std::string font_name;
-		position legend = position::none;
-		curve curve_type;
+		std::string        title;
+		std::string        font_name;
+		position           legend = position::none;
+		curve              curve_type;
 		std::vector<color> colors;
-		float data_opacity = 1.0f;
-		float point_size = 0.0f;
-		bool interpolate_nulls = false;
+		float              data_opacity = 1.0f;
+		float              point_size = 0.0f;
+		bool               interpolate_nulls = false;
 		// colors: ['green']
 		// histogram: { bucketSize: 10000000 }
 		// hAxis: {title: 'Age', minValue : 0, maxValue : 15},
@@ -88,13 +82,7 @@ namespace gb2gc
 	std::ostream& operator<<(std::ostream& os, googlechart_options::curve curve);
 
 	void write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis);
-
 	void write(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt);
-
-	//struct googlechart_data
-	//{
-	//	std::vector<std::string> series;
-	//};
 
 	namespace detail 
 	{
