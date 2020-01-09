@@ -284,7 +284,9 @@ void gbm2gc::options::print_usage(const char* cmd)
 {
     // Arguments are IEEE 1003.1 compliant: 
     // http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
-	std::cout << "Usage:\n" << "  ";
+   std::cout << "Google Benchmark to Google Chart Converter (GB2GC) v0.1.0\n";
+   std::cout << "Tutorial available at: https://github.com/ekcoh/gb2gc \n\n";
+   std::cout << "Usage:\n" << "  ";
 	if (cmd)
 		std::cout << cmd;
 	std::cout << "-c type[-f filter]-l|-s[-h height]-i in_file[-n name...][-o out_file][-t title][-v][-w width]\n\n"

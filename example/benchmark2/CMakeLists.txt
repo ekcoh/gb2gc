@@ -1,9 +1,9 @@
 # Benchmark executable
-add_executable(${PROJECT_NAME}_benchmark1
+add_executable(${PROJECT_NAME}_benchmark2
 	"main.cpp"
 )
 
-target_compile_features(${PROJECT_NAME}_benchmark1 PRIVATE cxx_std_11)
+target_compile_features(${PROJECT_NAME}_benchmark2 PRIVATE cxx_std_11)
 if(MSVC)
 	# CMake appends /W3 by default, and having /W3 followed by /W4 will result in 
 	# cl : Command line warning D9025 : overriding '/W3' with '/W4'.  Since this is
@@ -11,65 +11,63 @@ if(MSVC)
 	# by fixing the command line.
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-	target_compile_options(${PROJECT_NAME}_benchmark1 PRIVATE /W4 /WX)
+	target_compile_options(${PROJECT_NAME}_benchmark2 PRIVATE /W4 /WX)
 
 	# Generate assembly for reviewing if needed
 	# target_compile_options(hitlib PRIVATE /FAscu /Fa )
 else(MSVC)
-	target_compile_options(${PROJECT_NAME}_benchmark1 PRIVATE -Wall -Wextra -pedantic -Werror)
+	target_compile_options(${PROJECT_NAME}_benchmark2 PRIVATE -Wall -Wextra -pedantic -Werror)
 endif(MSVC)
 
 # Setup project dependencies
-target_link_libraries(${PROJECT_NAME}_benchmark1
+target_link_libraries(${PROJECT_NAME}_benchmark2
 	PRIVATE benchmark
 )
 
-add_dependencies(${PROJECT_NAME}_benchmark1 ${PROJECT_NAME})
+add_dependencies(${PROJECT_NAME}_benchmark2 ${PROJECT_NAME})
 
 # Tell CMake how to generate benchmark JSON result and setup dependencies
 add_custom_command(
-	OUTPUT ${CMAKE_BINARY_DIR}/benchmark1.json
-	COMMAND $<TARGET_FILE:${PROJECT_NAME}_benchmark1> 
+	OUTPUT ${CMAKE_BINARY_DIR}/benchmark2.json
+	COMMAND $<TARGET_FILE:${PROJECT_NAME}_benchmark2> 
 	        --benchmark_counters_tabular=true 
 			--benchmark_format=console 
-			--benchmark_out=benchmark1.json
+			--benchmark_out=benchmark2.json
 			--benchmark_out_format=json
-	DEPENDS ${PROJECT_NAME}_benchmark1
+	DEPENDS ${PROJECT_NAME}_benchmark2
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	VERBATIM
 )
 
 # Tell CMake how to generate HTML chart from JSON result and setup dependencies
 add_custom_command(
-	OUTPUT ${CMAKE_BINARY_DIR}/benchmark1.html
+	OUTPUT ${CMAKE_BINARY_DIR}/benchmark2.html
 	COMMAND $<TARGET_FILE:${PROJECT_NAME}> 
 		-c bar										# Bar chart
-		-i "${CMAKE_BINARY_DIR}/benchmark1.json"	# Input file
-		-o "${CMAKE_BINARY_DIR}/benchmark1.html"    # Output file
-		-t "Benchmark 1 Example"                    # Custom chart title
+		-i "${CMAKE_BINARY_DIR}/benchmark2.json"	# Input file
+		-o "${CMAKE_BINARY_DIR}/benchmark2.html"    # Output file
+		-t "Benchmark 2 Example"                    # Custom chart title
 		-w 1100                                     # Width of chart in px
 		-h 900                                      # Height of chart in px
 		-y "Time (nanoseconds)"                     # Custom y-axis label
 		-l right                                    # Custom legend position
 	DEPENDS 
 		${PROJECT_NAME} 
-		${CMAKE_BINARY_DIR}/benchmark1.json
+		${CMAKE_BINARY_DIR}/benchmark2.json
 	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 	VERBATIM
 )
 
 # Add target to run benchmark
-add_custom_target(run_benchmark1
-	COMMAND ${CMAKE_COMMAND} -E echo "Running benchmark 1..."
+add_custom_target(run_benchmark2
+	COMMAND ${CMAKE_COMMAND} -E echo "Running benchmark 2..."
 	DEPENDS ${CMAKE_BINARY_DIR}/benchmark1.json
 	VERBATIM
 )
 
 # Add target to generate chart
-add_custom_target(generate_chart_benchmark1
-	COMMAND ${CMAKE_COMMAND} -E echo "Generating chart for benchmark 1..."
+add_custom_target(generate_chart_benchmark2
+	COMMAND ${CMAKE_COMMAND} -E echo "Generating chart for benchmark 2..."
 	DEPENDS ${CMAKE_BINARY_DIR}/benchmark1.html 
 	VERBATIM
 )
-
-message("BINARY: ${GB2GC}")

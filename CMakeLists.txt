@@ -26,6 +26,9 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/gtest-src
                  ${CMAKE_BINARY_DIR}/external/gtest-build
                  EXCLUDE_FROM_ALL)
 
+#list(APPEND GB2GC_THIRD_PARTY_LICENSES ${CMAKE_BINARY_DIR}/external/gtest-src/LICENSE)
+#list(APPEND GB2GC_THIRD_PARTY_URLS )
+
 ###################################################################################################
 # Download and unpack Google Benchmark at configure time
 configure_file(external/benchmark/CMakeLists.txt.in external/benchmark-download/CMakeLists.txt)
@@ -91,13 +94,25 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/variant_lite-src
                  ${CMAKE_BINARY_DIR}/external/variant_lite-build
                  EXCLUDE_FROM_ALL)
 
-# GB2GC (Google Benchmark To Google Chart)
-project(gbm2gc
-	VERSION 0.0.0
-	DESCRIPTION "Basic tool written in C++11 to convert Google Benchmark json output to Google Charts"
+project(gb2gc
+	VERSION 0.1.0
+	DESCRIPTION "Basic command-line tool to convert Google Benchmark json output to Google Charts"
+	HOMEPAGE_URL "https://github.com/ekcoh/gb2gc"
 	LANGUAGES CXX
 )
+
+# Define a upper case variable to carry upper case project name for variable definitions
 string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UCASE)
+
+option(GB2GC_BUILD_TESTS    "Enable building tests" ON)
+option(GB2GC_CODE_COVERAGE  "Enable the code coverage build option." OFF)
+option(GB2GC_INSTALL        "Enable the installation of targets." ON)
+option(GB2GC_BUILD_EXAMPLES "Enable building examples" ON)
+
+if (NOT GB2GC_BUILD_TESTS AND GB2GC_CODE_COVERAGE)
+	message(WARNING "Cannot generate code coverage without building tests. Tests will be disabled.")
+    set(FGB2GC_BUILD_TESTS OFF)
+endif()
 
 add_executable(${PROJECT_NAME}
 	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
@@ -119,6 +134,9 @@ if(MSVC)
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
 	string(REGEX REPLACE " /W[0-4]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 	target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+
+    # Make executable not depend on run-time dlls for simpler distribution.
+    target_compile_options(${PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:/MT>)
 else(MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif(MSVC)
@@ -128,8 +146,27 @@ target_link_libraries(${PROJECT_NAME}
 	PRIVATE variant-lite
 )
 
-enable_testing()
-add_subdirectory(test)
+if (GB2GC_BUILD_TESTS)
+	enable_testing()
+	add_subdirectory(test)
+endif()
 
-add_subdirectory(example)
+if (GB2GC_BUILD_EXAMPLES)
+	add_subdirectory(example)
+endif()
 
+add_custom_target(${PROJECT_NAME}_zip_package
+	COMMAND ${CMAKE_COMMAND} -E echo "Creating zip distribution..."
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/README.md" ${CMAKE_CURRENT_BINARY_DIR}/.
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE" ${CMAKE_CURRENT_BINARY_DIR}/.
+	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/THIRD-PARTY-LICENSES" ${CMAKE_CURRENT_BINARY_DIR}/.
+	COMMAND ${CMAKE_COMMAND} -E tar "cfv" "${PROJECT_NAME}_v${PROJECT_VERSION}.zip" --format=zip
+		"$<TARGET_FILE_NAME:${PROJECT_NAME}>"
+		"${CMAKE_CURRENT_BINARY_DIR}/LICENSE"
+		"${CMAKE_CURRENT_BINARY_DIR}/THIRD-PARTY-LICENSES"
+		"${CMAKE_CURRENT_BINARY_DIR}/README.md"
+	WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	DEPENDS ${PROJECT_NAME}
+	COMMENT "Creating ZIP distribution..."
+	VERBATIM
+)
