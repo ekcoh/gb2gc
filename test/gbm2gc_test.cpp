@@ -86,5 +86,6 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_
 	};
 
 	EXPECT_EQ(gbm2gc::run(15, args), 0);
+   EXPECT_TRUE(file_exists());
 }
 

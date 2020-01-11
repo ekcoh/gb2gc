@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}_unit_tests
 	"selector_test.cpp"
 	"chart_test.cpp"
 	"data_set_test.cpp"
+	"variant_test.cpp"
 )
 
 target_compile_features(${PROJECT_NAME}_unit_tests PRIVATE cxx_std_11)

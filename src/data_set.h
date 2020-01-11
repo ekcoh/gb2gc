@@ -2,7 +2,6 @@
 #define GB2GC_DATASET_H
 
 #include "variant.h"
-//#include "type_traits.h"
 
 #include <vector>
 #include <type_traits>
@@ -43,7 +42,7 @@ namespace gb2gc
 
 		struct column_type
 		{
-			explicit column_type(size_t rows = 0, std::string name = std::string()) : 
+			column_type(size_t rows = 0, std::string name = std::string()) : 
 				name_(std::move(name)), data_(rows) 
 			{}
 			~column_type() noexcept = default;
@@ -59,7 +58,7 @@ namespace gb2gc
 			bool empty() const { return data_.empty(); }
 			void reserve(size_t rows) { data_.reserve(rows); }
 			const std::string& name() const { return name_; }
-			void set_name(const std::string& name) { name_ = name; }
+         void set_name(const std::string& name) { name_ = name; }
 		private:
 			void add_row(variant value = variant{}) { data_.emplace_back(std::move(value)); }
 			void resize(size_t rows) { data_.resize(rows); }
@@ -78,32 +77,34 @@ namespace gb2gc
 				ds_(ds), col_(col), row_(row)
 			{ }
 
-			const variant& operator->() const
+			const variant& operator->() const 
 			{
-				//assert(ds_ && "attempting to dereference iterator which is outside valid range"); 
 				return ds_->get_col(col_)[row_];
 			}
+
 			const variant& operator*() const
 			{
-				//assert(ds_ && "attempting to dereference iterator which is outside valid range");
 				return ds_->get_col(col_)[row_];
 			}
+
 			const_row_value_iterator& operator++()
 			{
-				//assert(ds_ && "attempting to increment iterator which is outside valid range");
 				++col_; return *this;
 			}
+
 			bool operator==(const const_row_value_iterator& other) const
 			{
 				if (&ds_ != &other.ds_ && row_ != other.row_)
 					return false; // not comparable
 				return col_ == other.col_;
 			}
+
 			bool operator!=(const const_row_value_iterator& other) const 
 			{ 
 				bool equal = (*this == other);
 				return !equal; 
 			}
+
 		private:
 			const data_set* ds_;
 			size_t col_;
@@ -118,26 +119,31 @@ namespace gb2gc
 				ds_(ds), col_(col), row_(row)
 			{ }
 
-			variant& operator->() const
+         variant& operator->() const
 			{
-				//assert(ds_ && "attempting to dereference iterator which is outside valid range"); 
 				return ds_->get_col(col_)[row_];
 			}
-			variant& operator*() const
+			
+         variant& operator*() const
 			{
-				//assert(ds_ && "attempting to dereference iterator which is outside valid range");
 				return ds_->get_col(col_)[row_];
 			}
-			row_value_iterator& operator++()
+			
+         row_value_iterator& operator++()
 			{
-				//assert(ds_ && "attempting to increment iterator which is outside valid range");
 				++col_; return *this;
 			}
+
 			bool operator==(const row_value_iterator& other) const
 			{
 				return &ds_ == &other.ds_ && row_ == other.row_ && col_ == other.col_;
 			}
-			bool operator!=(const row_value_iterator& other) const { return !(*this == other); }
+
+			bool operator!=(const row_value_iterator& other) const 
+         { 
+            return !(*this == other); 
+         }
+
 		private:
 			data_set* ds_;
 			size_t col_;
@@ -277,23 +283,75 @@ namespace gb2gc
 			size_t ri_;
 		};
 
-		const_row_iterator row_begin() const { return const_row_iterator(this, 0); }
-		const_row_iterator row_end() const { return const_row_iterator(this, rows()); }
+		const_row_iterator row_begin() const 
+      { 
+         return const_row_iterator(this, 0); 
+      }
 
-		row_iterator row_begin() { return row_iterator(this, 0); }
-		row_iterator row_end() { return row_iterator(this, rows()); }
+		const_row_iterator row_end() const 
+      { 
+         return const_row_iterator(this, rows()); 
+      }
 
-		column_iterator col_begin() { return columns_.begin(); }
-		column_iterator col_end() { return columns_.end(); }
-		const_column_iterator col_begin() const { return columns_.begin(); }
-		const_column_iterator col_end() const { return columns_.end(); }
-		row_value_iterator row_begin(size_t row) { return row_value_iterator(this, 0, row); }
-		row_value_iterator row_end(size_t row) { return row_value_iterator(this, cols(), row); }
+		row_iterator row_begin() 
+      { 
+         return row_iterator(this, 0); 
+      }
 
-		size_t cols() const noexcept { return columns_.size(); }
-		size_t rows() const noexcept { return columns_.empty() ? 0 : columns_[0].rows(); }
-		const data_type& data() const noexcept { return columns_; }
-		bool empty() const noexcept { return columns_.empty() || columns_[0].empty(); }
+		row_iterator row_end() 
+      { 
+         return row_iterator(this, rows()); 
+      }
+
+		column_iterator col_begin() 
+      { 
+         return columns_.begin(); 
+      }
+		
+      column_iterator col_end() 
+      { 
+         return columns_.end(); 
+      }
+
+		const_column_iterator col_begin() const 
+      { 
+         return columns_.begin(); 
+      }
+
+		const_column_iterator col_end() const
+      { 
+         return columns_.end(); 
+      }
+
+		row_value_iterator row_begin(size_t row) 
+      { 
+         return row_value_iterator(this, 0, row); 
+      }
+
+		row_value_iterator row_end(size_t row) 
+      { 
+         return row_value_iterator(this, cols(), row); 
+      }
+
+		size_t cols() const noexcept 
+      { 
+         return columns_.size(); 
+      }
+
+		size_t rows() const noexcept 
+      { 
+         return columns_.empty() ? 0 : columns_[0].rows(); 
+      }
+
+		const data_type& data() const noexcept 
+      { 
+         return columns_; 
+      }
+
+		bool empty() const noexcept 
+      { 
+         return columns_.empty() || columns_[0].empty(); 
+      }
 
 		void resize(size_t cols, size_t rows)
 		{

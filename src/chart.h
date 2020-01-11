@@ -16,34 +16,48 @@
 
 namespace gb2gc
 {
+   ////////////////////////////////////////////////////////////////////////////
+   // color
+
 	struct color
 	{
 		using byte = unsigned char;
 
 		byte r;
 		byte g;
-		byte b;
+		byte b;  
 	};
 
+   inline color make_color(color::byte r, color::byte g, color::byte b) noexcept
+   {
+      return color{ r, g, b };
+   }
+
 	static inline std::ostream& operator<<(std::ostream& os, const color& color)
-	{
+	{  // format color as #rrggbb
 		os << '#' << std::hex << color.r << color.g << color.b;
 	}
+
+   // axis
 
 	struct axis
 	{
 		std::string title;
 	};
 
+   // googlechart_dom_options
+
 	struct googlechart_dom_options
 	{
-		static constexpr unsigned default_width = 900;
+		static constexpr unsigned default_width  = 900;
 		static constexpr unsigned default_height = 500;
 
-		unsigned width = default_width;
+		unsigned width  = default_width;
 		unsigned height = default_height;
 		std::string div = "chart_div";
 	};
+
+   // googlechart_options
 
 	struct googlechart_options
 	{
@@ -166,7 +180,7 @@ namespace gb2gc
 		void write_html(std::ostream& os, const DataSet& transformer, 
 			const googlechart_dom_options& dom_options = googlechart_dom_options{})
 		{
-			auto html = make_element("html");
+			element html("html");
 
 			auto& head = html.add_element("head");
 			head.add_element("script")
@@ -215,27 +229,7 @@ namespace gb2gc
 		}
 	};
 
-	static std::ostream& operator<<(std::ostream& os, googlechart::visualization type)
-	{
-		switch (type)
-		{
-		case googlechart::visualization::scatter: 
-			os << "ScatterChart"; 
-			break;
-		case googlechart::visualization::line: 
-			os << "LineChart"; 
-			break;
-		case googlechart::visualization::histogram: 
-			os << "Histogram"; 
-			break;
-		case googlechart::visualization::bar:
-			os << "BarChart";
-			break;
-		default:
-			throw std::exception();
-		}
-		return os;
-	}
+   std::ostream& operator<<(std::ostream& os, googlechart::visualization type);
 
 	template<class DataSet>
 	void write(std::ostream& os, const format& fmt, size_t level, 
@@ -272,11 +266,6 @@ namespace gb2gc
 		};
 	}
 
-	/*struct googlechart_data_generator 
-	{
-
-	};
-*/
 	template<class T>
 	struct default_transformer
 	{
@@ -549,80 +538,6 @@ namespace gb2gc
 		return tuple_adapter_data_view<Container>{ container };
 	}
 
-	//template<class... ColumnTypes>
-	//tuple_data_set<ColumnTypes...> make_data_view(const tuple_data_set<ColumnTypes...>& tds)
-	//{
-	//	return tds; // only return 
-	//}
-
-	template<class... ColumnTypes>
-	struct tuple_data_facade
-	{
-
-	};
-
-	struct data_facade
-	{
-		virtual bool format(std::ostream& os) = 0;
-	};
-
-	class chart
-	{
-	public:
-
-		void write(std::ostream&)
-		{
-			const char path[] = "mytchart.html";
-
-			// dummy data
-			std::vector<std::tuple<double, double, double>> data;
-			std::vector<std::tuple<double, double>> data1;
-			std::vector<std::tuple<double, double>> data2;
-
-			// create tuple data set
-			tuple_data_set<double, double, double> tuple_data;// { "X", "Y", "Z" });
-			tuple_data.series()[0] = "X";
-			tuple_data.series()[1] = "Y";
-			tuple_data.series()[2] = "Z";
-
-			//std::tuple<double, double> t;
-			//auto x = std::get<0>(t);
-
-			// generate random data
-			const auto n = 20;
-			std::default_random_engine rand;
-			std::normal_distribution<double> dist(0, 10);
-			for (auto i = 0u; i < n; ++i)
-			{
-				const auto x = i;
-				const auto y = dist(rand);
-				const auto z = dist(rand);
-				tuple_data.data().push_back(std::make_tuple(i, y, z));
-				data.push_back(std::make_tuple(i, y, z));
-				data1.push_back(std::make_tuple(i, y));
-				data1.push_back(std::make_tuple(i, z));
-			}
-
-			auto view = make_data_view(data);
-
-			googlechart gc;
-			gc.type = googlechart::visualization::histogram;
-			gc.options.title = "Probing iterations";
-			gc.options.legend = googlechart_options::position::bottom;
-			gc.options.data_opacity = 0.5f;
-			gc.write_html_file(path, tuple_data);
-			//gc.write_html_file(path, make_tuple_transformer(data));
-
-			//system(path);
-		}
-
-	private:
-
-		std::string make_histogram()
-		{
-					
-		}
-	};
 } // namespace gb2gc
 
 #endif // GB2GC_CHART_H

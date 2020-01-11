@@ -9,12 +9,8 @@
 
 namespace gb2gc
 {
-	// Forward declarations
 	struct format;
 
-	/**
-    * @brief Represents a basic DOM element
-	 */
 	class element
 	{
 	public:
@@ -27,7 +23,6 @@ namespace gb2gc
 
 		using convertible = std::function<void(std::ostream&, const format&, size_t level)>;
 
-		/** @brief Represent DOM element content type */
 		enum class content_type
 		{
 			node,
@@ -35,10 +30,6 @@ namespace gb2gc
 			convertible
 		};
 
-		/**
-		 * @brief Constructs an element with the given name.
-		 * @param[in] name The element name.
-		 */
 		explicit element(const std::string& name);
 		~element() = default;
 		element(const element& other) = delete;
@@ -82,11 +73,6 @@ namespace gb2gc
 		std::vector<attribute> attributes_;
 		std::vector<element> children_;
 	};
-
-	inline element make_element(std::string name)
-	{
-		return element{ name };
-	}
 
 	struct indent
 	{

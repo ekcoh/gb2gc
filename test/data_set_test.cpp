@@ -1,6 +1,10 @@
 #include <gtest/gtest.h>
 #include "data_set.h"
 
+#include <vector>
+#include <array>
+#include <unordered_map>
+
 using namespace gb2gc;
 
 class data_set_test : public ::testing::Test
@@ -8,6 +12,14 @@ class data_set_test : public ::testing::Test
 	void SetUp()
 	{ }
 };
+
+TEST_F(data_set_test, is_iterator__should_return_true__if_type_is_iterator)
+{
+   EXPECT_TRUE( (gb2gc::is_iterator< std::vector<int>::iterator >::value) );
+   EXPECT_TRUE( (gb2gc::is_iterator< std::array<short, 5>::iterator >::value) );
+   EXPECT_TRUE( (gb2gc::is_iterator< std::unordered_map<long, int>::iterator >::value) );
+   EXPECT_FALSE((gb2gc::is_iterator< std::vector<int> > ::value));
+}
 
 TEST_F(data_set_test, ctor__should_create_empty_data_set__if_default_constructed)
 {
@@ -47,4 +59,14 @@ TEST_F(data_set_test, usage__replace_with_better_tests)
 
 	++it;
 	EXPECT_TRUE(it == ds.row_end());
+}
+
+TEST_F(data_set_test, xxx)
+{
+   //data_set ds;
+   //ds.reserve_cols(3);
+   //ds.reserve_rows(3);
+   //ds.
+
+   
 }

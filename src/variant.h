@@ -1,3 +1,7 @@
+// Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+// This file is subject to the license terms in the LICENSE file  found in the 
+// root directory of this distribution..
+
 #ifndef GB2GC_CHART_VARIANT_H
 #define GB2GC_CHART_VARIANT_H
 
@@ -5,41 +9,30 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <exception>
 
 namespace gb2gc
 {
-	/**
-	 * @brief Represents a variant type for JS trivial types compatible with HTML charts.
-	 */
+   using null_type = nonstd::monostate;
+
+   inline constexpr nonstd::monostate null_value() { return {}; }
+
 	using variant = nonstd::variant<
-		nonstd::monostate,
-		short,
-		unsigned short,
-		int,
-		unsigned int,
-		long,
-		unsigned long,
-		long long,
-		unsigned long long,
-		float,
-		double,
-		long double,
-		std::string>;
+      null_type,           // 0
+		short,               // 1
+		unsigned short,      // 2
+		int,                 // 3
+		unsigned int,        // 4
+		long,                // 5
+		unsigned long,       // 6
+		long long,           // 7
+		unsigned long long,  // 8
+		float,               // 9
+		double,              // 10
+		long double,         // 11
+		std::string>;        // 12
 
-	/**
-	 * @brief Convenience method for creating a null-value for variant type.
-	 * @return Variant value corresponding to null representation.
-	 */
-	inline constexpr nonstd::monostate null_value() { return {}; }
-
-	/**
-	 * @brief Overloaded output operator writing the given variant to the
-	 *        output stream.
-	 * @remarks Specialized for conversion to JavaScript syntax.
-	 * @param[in] os The destination output stream.
-	 * @param[in] v  The variant.
-	 * @return The output-stream @p os passed by reference.
-	 */
 	inline std::ostream& operator<<(std::ostream & os, gb2gc::variant const & v)
 	{
 		switch (v.index())
@@ -57,10 +50,19 @@ namespace gb2gc
 		case 10: os << std::to_string(nonstd::get<10>(v)); break;
 		case 11: os << std::to_string(nonstd::get<11>(v)); break;
 		case 12: os << '\'' << nonstd::get<12>(v) << '\''; break;
-		default: os << "unexpected index";
+		default: 
+         throw std::out_of_range("variant index out of range");
 		}
 		return os;
 	}
+
+   inline std::string to_string(const gb2gc::variant& value)
+   {
+      std::stringstream ss;
+      ss << value;
+      return ss.str();
+   }
+
 } // namespace gb2gc
 
 #endif // GB2GC_CHART_VARIANT_H

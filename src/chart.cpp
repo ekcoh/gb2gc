@@ -41,6 +41,29 @@ gb2gc::operator<<(std::ostream& os, googlechart_options::curve curve)
 	return os;
 }
 
+std::ostream& 
+gb2gc::operator<<(std::ostream& os, googlechart::visualization type)
+{
+   switch (type)
+   {
+   case googlechart::visualization::scatter:
+      os << "ScatterChart";
+      break;
+   case googlechart::visualization::line:
+      os << "LineChart";
+      break;
+   case googlechart::visualization::histogram:
+      os << "Histogram";
+      break;
+   case googlechart::visualization::bar:
+      os << "BarChart";
+      break;
+   default:
+      throw std::invalid_argument("invalid Google Chart visualization type");
+   }
+   return os;
+}
+
 void gb2gc::write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis)
 {
 	const indent ind{ fmt, level };
