@@ -2,7 +2,7 @@
 
 int main(int argc, const char* argv[])
 {
-   try 
+   try
    {
       return gbm2gc::run(argc, argv);
    }

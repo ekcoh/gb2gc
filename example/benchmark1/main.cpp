@@ -10,7 +10,7 @@ int main(int argc, char** argv)
    ::benchmark::RunSpecifiedBenchmarks();
 }
 
-static void BM_memcpy(benchmark::State& state) 
+static void BM_memcpy(benchmark::State& state)
 {
    char* src = new char[state.range(0)];
    char* dst = new char[state.range(0)];

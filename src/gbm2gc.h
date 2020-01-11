@@ -9,60 +9,60 @@
 
 namespace gbm2gc
 {
-	static constexpr int ERROR_NO_ERROR = 0;
-	static constexpr int ERROR_INVALID_ARGUMENT = 1;
+   static constexpr int ERROR_NO_ERROR = 0;
+   static constexpr int ERROR_INVALID_ARGUMENT = 1;
 
    std::vector<std::string> split(const std::string& s, char delimiter);
 
-	template<class T>
-	struct span final
-	{
-		using iterator_type = T * ;
+   template<class T>
+   struct span final
+   {
+      using iterator_type = T * ;
 
-		iterator_type begin() { return values; }
+      iterator_type begin() { return values; }
       const iterator_type begin() const { return values; }
-		iterator_type end() { return &values[count]; }
-		const iterator_type end() const { return &values[count]; }
+      iterator_type end() { return &values[count]; }
+      const iterator_type end() const { return &values[count]; }
 
-		inline const T& operator[](size_t index) const noexcept
-		{
-			assert(index < count && "span index out of range");
-			return values[index];
-		}
+      inline const T& operator[](size_t index) const noexcept
+      {
+         assert(index < count && "span index out of range");
+         return values[index];
+      }
 
-		T*     values;
-		size_t count;
-	};
+      T*     values;
+      size_t count;
+   };
 
-	template<class T>
-	inline span<T> make_span(T* ptr, size_t n)
-	{
-		return span<T>{ ptr, n };
-	}
+   template<class T>
+   inline span<T> make_span(T* ptr, size_t n)
+   {
+      return span<T>{ ptr, n };
+   }
 
    // Provides the means of selecting data
-	class selector final
-	{
-	public:
+   class selector final
+   {
+   public:
       // Constructs a selector that selects data with a regular key or of the form
       //  'BM_Identifier/<index>' where 'BM_Identifier' is the name of the benchmark
       // and <index> is the index of the benchmark parameter to be selected.
-		selector(const std::string& key);
+      selector(const std::string& key);
 
-		// Selects data from the given benchmark
+      // Selects data from the given benchmark
       gb2gc::variant operator()(const nlohmann::json& benchmark) const;
-			
-		const std::string& key() const;
-		bool is_parameterized() const;
+
+      const std::string& key() const;
+      bool is_parameterized() const;
 
       // Returns the associated parameter index if this selector is parameterized,
       // i.e. is_parameterized() returns true, else is undefined behavior.
-		unsigned param_index() const;
-		
-	private:
-		std::string key_;
-		unsigned param_index_;
-	};
+      unsigned param_index() const;
+
+   private:
+      std::string key_;
+      unsigned param_index_;
+   };
 
    // Provides the means of parsing and reading command-line options.
    class options
@@ -108,14 +108,14 @@ namespace gbm2gc
    gb2gc::data_set parse_data(const options& options, const nlohmann::json& bm_result);
 
    // Writes the given data-set as a chart based on given options 
-	void write_chart(const options& options, const gb2gc::data_set& data_set);
+   void write_chart(const options& options, const gb2gc::data_set& data_set);
 
    // Parses a google benchmark data file
-	nlohmann::json parse_json(const std::string& file);
+   nlohmann::json parse_json(const std::string& file);
 
    // Runs the Google benchmark converter based on command-line arguments and returns
    // a system-specific error code.
-	int run(int argc, const char* argv[]);
+   int run(int argc, const char* argv[]);
 
 } // namespace gb2gc
 

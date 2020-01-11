@@ -6,8 +6,8 @@ using namespace gb2gc;
 
 class chart_test : public ::testing::Test
 {
-	void SetUp()
-	{ }
+   void SetUp()
+   { }
 };
 
 TEST_F(chart_test, xxx)
