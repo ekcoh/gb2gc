@@ -1,7 +1,11 @@
+// Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+// This file is subject to the license terms in the LICENSE file found in the 
+// root directory of this distribution.
+
 #ifndef GB2GC_CHART_H
 #define GB2GC_CHART_H
 
-#include "document.h"
+#include "dom.h"
 #include "data_set.h"
 
 #include <string>
@@ -201,7 +205,7 @@ namespace gb2gc
             .add_attribute("style", "width: " + std::to_string(dom_options.width) +
                "px; height: " + std::to_string(dom_options.height) + "px;");
 
-         detail::write(os, format{}, html, 0);
+         write_dom(os, html);
       }
 
       template<class DataTransformer>

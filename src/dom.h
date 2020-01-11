@@ -1,3 +1,7 @@
+// Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+// This file is subject to the license terms in the LICENSE file found in the 
+// root directory of this distribution.
+
 #ifndef GB2GC_DOCUMENT_H
 #define GB2GC_DOCUMENT_H
 
@@ -16,12 +20,16 @@ namespace gb2gc
    public:
       using element_container = std::vector<element>;
       using element_iterator = typename element_container::iterator;
+      using const_element_iterator = typename element_container::const_iterator;
 
       using attribute = std::pair<std::string, std::string>;
       using attribute_container = std::vector<attribute>;
       using attribute_iterator = typename attribute_container::iterator;
 
-      using convertible = std::function<void(std::ostream&, const format&, size_t level)>;
+      using convertible = std::function<void(
+         std::ostream&, // os
+         const format&, // fmt
+         size_t)>;      // level
 
       enum class content_type
       {
@@ -31,7 +39,7 @@ namespace gb2gc
       };
 
       explicit element(const std::string& name);
-      ~element() = default;
+      ~element() noexcept = default;
       element(const element& other) = delete;
       element& operator=(const element& other) = delete;
       element(element&& other) = default;
@@ -39,6 +47,7 @@ namespace gb2gc
 
       element& set_comment(const std::string& comment);
       element& set_comment(std::string&& comment);
+
       element& set_content(std::string&& value);
       element& set_content(convertible convertible);
 
@@ -54,6 +63,8 @@ namespace gb2gc
       element& add_attribute(const std::string& key, const std::string& value);
       element& add_attribute(attribute&& attrib);
 
+      const_element_iterator find_child(const std::string& value);
+
       const std::string& name() const;
       const attribute_container& attributes() const;
       const element_container& children() const;
@@ -66,40 +77,35 @@ namespace gb2gc
       void format(std::ostream& os, const format& fmt, size_t level) const;
 
    private:
-      std::string name_;
-      std::string value_;
-      std::string comment_;
-      convertible convertible_value_;
+      std::string            name_;
+      std::string            value_;
+      std::string            comment_;
+      convertible            convertible_value_;
       std::vector<attribute> attributes_;
-      std::vector<element> children_;
+      std::vector<element>   children_;
    };
 
    struct indent
    {
       const format& fmt;
-      size_t level;
+      size_t        level;
    };
+
+   std::ostream& operator<<(std::ostream& os, const indent& ind);
 
    struct format
    {
-      bool strip_comments = false;
-      unsigned indentation = 2;
+      bool     strip_comments = false;
+      unsigned indentation    = 2;
 
-      inline indent indent(size_t level) const
+      inline ::gb2gc::indent indent(size_t level) const
       {
          return ::gb2gc::indent{ *this, level };
       }
    };
 
-   std::ostream& operator<<(std::ostream& os, const indent& ind);
-
-   namespace detail
-   {
-      std::ostream& format_attribute(std::ostream& os, const format&, const element::attribute& attr);
-      void write_content(std::ostream& os, const format& fmt, size_t level, const std::string& in);
-      std::ostream& close_element(std::ostream& os, const format& fmt, size_t level, const element& e);
-      std::ostream& write(std::ostream& os, const format& fmt, const element& e, size_t level);
-   }
+   std::ostream& write_dom(std::ostream& os, const element& e,
+      const format& fmt = format(), size_t level = 0);
 } // namespace gb2gc
 
 #endif // GB2GC_DOCUMENT_H

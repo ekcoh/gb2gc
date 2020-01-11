@@ -1,6 +1,6 @@
 // Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
-// This file is subject to the license terms in the LICENSE file  found in the 
-// root directory of this distribution..
+// This file is subject to the license terms in the LICENSE file found in the 
+// root directory of this distribution.
 
 #ifndef GB2GC_CHART_VARIANT_H
 #define GB2GC_CHART_VARIANT_H

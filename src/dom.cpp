@@ -1,13 +1,42 @@
-#include "document.h"
+// Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+// This file is subject to the license terms in the LICENSE file found in the 
+// root directory of this distribution.
+
+#include "dom.h"
+#include <algorithm>
+
+namespace
+{
+   std::ostream& format_attribute(std::ostream& os, const gb2gc::format&,
+      const gb2gc::element::attribute& attr)
+   {
+      os << ' ' << attr.first << "=\"" << attr.second << '"';
+      return os;
+   }
+
+   void write_content(std::ostream& os, const gb2gc::format& fmt,
+      size_t level, const std::string& in)
+   {
+      std::istringstream ss(in);
+      std::string line;
+      while (getline(ss, line))
+         os << gb2gc::indent{ fmt, level } << line << '\n';
+   }
+
+   std::ostream& close_element(std::ostream& os, const gb2gc::format& fmt,
+      size_t level, const gb2gc::element& e)
+   {
+      os << '\n' << fmt.indent(level) << "</" << e.name() << '>' << '\n';
+      return os;
+   }
+}
 
 // Indentation formatting
 
 std::ostream& gb2gc::operator<<(std::ostream& os, const indent& ind)
 {
    const auto cnt = ind.level * ind.fmt.indentation;
-   for (auto i = 0u; i < cnt; ++i)
-      os << ' ';
-   return os;
+   return (os << std::string(cnt, ' '));
 }
 
 // Element
@@ -17,7 +46,7 @@ gb2gc::element::element(const std::string& name)
 { }
 
 const std::string&
-gb2gc::element::name() const { return this->name_; }
+gb2gc::element::name() const { return name_; }
 
 const gb2gc::element::attribute_container&
 gb2gc::element::attributes() const { return attributes_; }
@@ -115,37 +144,19 @@ gb2gc::element::set_content(convertible convertible)
    return *this;
 }
 
-// Detail
-
-std::ostream& gb2gc::detail::format_attribute(
-   std::ostream& os, const format&, const element::attribute& attr)
+gb2gc::element::const_element_iterator 
+gb2gc::element::find_child(const std::string& value)
 {
-   os << ' ' << attr.first << "=\"" << attr.second << '"';
-   return os;
+   return std::find_if(children_.begin(), children_.end(),
+      [&](const element& e) { return e.name_ == value; });
 }
 
-void gb2gc::detail::write_content(
-   std::ostream& os, const format& fmt, size_t level, const std::string& in)
+std::ostream& gb2gc::write_dom(
+   std::ostream& os, const element& e, const format& fmt, size_t level)
 {
-   std::istringstream ss(in);
-   std::string line;
-   while (getline(ss, line))
-      os << indent{ fmt, level } << line << '\n';
-}
-
-std::ostream& gb2gc::detail::close_element(
-   std::ostream& os, const format& fmt, size_t level, const element& e)
-{
-   os << '\n' << fmt.indent(level) << "</" << e.name() << '>' << '\n';
-   return os;
-}
-
-std::ostream& gb2gc::detail::write(
-   std::ostream& os, const format& fmt, const element& e, size_t level)
-{
-   const auto ind = indent{ fmt, level };
-   if (e.has_comment())
-      os << ind << "<!-- " << e.comment() << "-->\n";
+   const auto ind = fmt.indent(level);
+   if (!fmt.strip_comments && e.has_comment())
+      os << ind << "<!-- " << e.comment() << " -->\n";
 
    os << ind << '<' << e.name();
    for (const auto& attrib : e.attributes())
@@ -173,7 +184,7 @@ std::ostream& gb2gc::detail::write(
    {
       os << "\n";
       for (const auto& c : e.children())
-         write(os, fmt, c, level + 1);
+         write_dom(os, c, fmt, level + 1);
       os << ind << "</" << e.name() << '>' << '\n';
    }
    return os;

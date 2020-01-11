@@ -1,19 +1,25 @@
+# Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+# This file is subject to the license terms in the LICENSE file found in the 
+# root directory of this distribution.
+
 # Unit test executable
 add_executable(${PROJECT_NAME}_unit_tests 
-	"${PROJECT_SOURCE_DIR}/src/gbm2gc.h"
+   "${PROJECT_SOURCE_DIR}/src/gbm2gc.h"
 	"${PROJECT_SOURCE_DIR}/src/gbm2gc.cpp"
 	"${PROJECT_SOURCE_DIR}/src/selector.cpp"
 	"${PROJECT_SOURCE_DIR}/src/options.cpp"
 	"${PROJECT_SOURCE_DIR}/src/chart.cpp"
 	"${PROJECT_SOURCE_DIR}/src/data_set.cpp"
-	"${PROJECT_SOURCE_DIR}/src/document.cpp"
+	"${PROJECT_SOURCE_DIR}/src/dom.cpp"
 	
-	"main.cpp" 
+	 
+   "chart_test.cpp"
+   "data_set_test.cpp"
+   "dom_test.cpp" 
 	"gbm2gc_test.cpp"
-	"options_test.cpp"
+	"main.cpp"
+   "options_test.cpp"
 	"selector_test.cpp"
-	"chart_test.cpp"
-	"data_set_test.cpp"
 	"variant_test.cpp"
 )
 

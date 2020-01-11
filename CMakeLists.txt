@@ -1,3 +1,7 @@
+# Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
+# This file is subject to the license terms in the LICENSE file found in the 
+# root directory of this distribution.
+
 cmake_minimum_required (VERSION 3.8)
 
 ###################################################################################################
@@ -122,7 +126,9 @@ add_executable(${PROJECT_NAME}
 	"${CMAKE_CURRENT_LIST_DIR}/src/selector.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/chart.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/data_set.cpp"
-	"${CMAKE_CURRENT_LIST_DIR}/src/document.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/dom.h"
+   "${CMAKE_CURRENT_LIST_DIR}/src/dom.cpp"
+   "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)
