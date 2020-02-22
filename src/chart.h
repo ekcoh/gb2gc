@@ -41,6 +41,7 @@ namespace gb2gc
 
    std::ostream& operator<<(std::ostream& os, const color& color);
 
+   ////////////////////////////////////////////////////////////////////////////
    // axis
 
    struct axis
@@ -50,6 +51,7 @@ namespace gb2gc
       variant     max_value;
    };
 
+   ////////////////////////////////////////////////////////////////////////////
    // googlechart_dom_options
 
    struct googlechart_dom_options
@@ -60,8 +62,10 @@ namespace gb2gc
       unsigned width = default_width;
       unsigned height = default_height;
       std::string div = "chart_div";
+      bool include_meta_timestamp = false;
    };
 
+   ////////////////////////////////////////////////////////////////////////////
    // googlechart_options
 
    struct googlechart_options
@@ -105,6 +109,9 @@ namespace gb2gc
       void write_data_set(std::ostream& os, const format& fmt, size_t level, const data_set& ds);
    }
 
+   ////////////////////////////////////////////////////////////////////////////
+   // googlechart
+
    class googlechart
    {
    public:
@@ -117,9 +124,7 @@ namespace gb2gc
       };
 
       googlechart_options options;
-      //googlechart_data data;
       visualization type = visualization::histogram;
-      //std::string chart_div = "chart_div";
 
       template<class DataSet>
       void write_html(std::ostream& os, const DataSet& transformer,
@@ -128,6 +133,12 @@ namespace gb2gc
          element html("html");
 
          auto& head = html.add_element("head");
+         if (dom_options.include_meta_timestamp)
+         {
+             head.add_element("meta")
+                 .add_attribute("name", "timestamp")
+                 .add_attribute("timestamp", local_date_time());
+         }
          head.add_element("script")
             .add_attribute("type", "text/javascript")
             .add_attribute("src", "https://www.gstatic.com/charts/loader.js");
@@ -136,10 +147,6 @@ namespace gb2gc
             .set_content(make_convertible(*this, transformer, dom_options.div));
 
          auto& body = html.add_element("body");
-         /*body.add_element("h1")
-            .set_content("Auto-generated charts");
-         body.add_element("p")
-            .set_content("Generation timestamp: " + local_date_time());*/
          body.add_element("div")
             .set_comment("This div element will hold the generated chart")
             .add_attribute("id", dom_options.div)
@@ -162,27 +169,13 @@ namespace gb2gc
       }
 
    private:
-      const std::string local_date_time() const
-      {
-         time_t now = time(0);
-         struct tm tstruct;
-         char buf[80];
-         //tstruct = *localtime(&now);
-         localtime_s(&tstruct, &now);
-         strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ%z", &tstruct);
-         return buf;
-      }
+       std::string local_date_time() const;
    };
 
    std::ostream& operator<<(std::ostream& os, googlechart::visualization type);
 
    void write(std::ostream& os, const format& fmt, size_t level,
        const googlechart& gc, const data_set& data_set, const std::string& chart_div);
-
-   struct googlechart_content
-   {
-      const googlechart& content;
-   };
 
    template<class DataTransformer>
    static element::convertible make_convertible(

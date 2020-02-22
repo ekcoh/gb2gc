@@ -178,3 +178,13 @@ void gb2gc::write(std::ostream& os, const format& fmt, size_t level,
     os << ind_func << "chart.draw(data, options);\n";
     os << ind << "}";
 }
+
+std::string gb2gc::googlechart::local_date_time() const
+{
+    time_t now = time(0);
+    struct tm tstruct;
+    char buf[80];
+    localtime_s(&tstruct, &now);
+    strftime(buf, sizeof(buf), "%Y-%m-%dT%XZ%z", &tstruct);
+    return buf;
+}

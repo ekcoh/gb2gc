@@ -19,6 +19,7 @@ namespace gb2gc {
    
 struct format;
 
+// Simplistic DOM element
 class element
 {
 public:
