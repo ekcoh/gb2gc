@@ -2,14 +2,19 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef gb2gc_H
-#define gb2gc_H
+#ifdef _MSC_VER
+#pragma once    // Improves build time on MSVC
+#endif
 
-#include "chart.h"
+#ifndef GB2GC_GB2GC_H
+#define GB2GC_GB2GC_H
 
 #include <string>
 #include <vector>
+
 #include <nlohmann/json.hpp>
+
+#include "chart.h"
 
 namespace gb2gc
 {
@@ -123,4 +128,4 @@ namespace gb2gc
 
 } // namespace gb2gc
 
-#endif // gb2gc_H
+#endif // GB2GC_GB2GC_H

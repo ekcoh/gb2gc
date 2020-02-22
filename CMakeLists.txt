@@ -118,6 +118,8 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/optional_lite-src
                  ${CMAKE_BINARY_DIR}/external/optional_lite-build
                  EXCLUDE_FROM_ALL)
 
+###################################################################################################
+# gb2gc
 project(gb2gc
 	VERSION 0.1.0
 	DESCRIPTION "Basic command-line tool to convert Google Benchmark json output to Google Charts"

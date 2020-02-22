@@ -2,19 +2,23 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
+#ifdef _MSC_VER
+#pragma once    // Improves build time on MSVC
+#endif
+
 #ifndef GB2GC_CHART_H
 #define GB2GC_CHART_H
 
-#include "dom.h"
-#include "data_set.h"
-
-#include <string>
-#include <vector>
-#include <functional>
-#include <fstream>
-#include <random>
 #include <array>
 #include <ctime>
+#include <fstream>
+#include <functional>
+#include <random>
+#include <string>
+#include <vector>
+
+#include "dom.h"
+#include "data_set.h"
 
 namespace gb2gc
 {
@@ -96,68 +100,10 @@ namespace gb2gc
 
    namespace detail
    {
-      template<class Tuple, size_t Index>
-      struct expand_format_tuple
-      {
-         static_assert(Index < std::tuple_size<Tuple>::value, "Index out of range");
-
-         static inline void format(std::ostream& os, const Tuple& t)
-         {
-            expand_format_tuple<Tuple, Index - 1>::format(os, t);
-            os << ", " << std::get<Index>(t);
-         }
-      };
-
-      template<class Tuple>
-      struct expand_format_tuple<Tuple, 0>
-      {
-         static inline void format(std::ostream& os, const Tuple& t)
-         {
-            os << std::get<0>(t);
-         }
-      };
-
       void write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis);
       void write_options(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt);
+      void write_data_set(std::ostream& os, const format& fmt, size_t level, const data_set& ds);
    }
-
-   // Specialization for tuple data
-   template<class Tuple>
-   inline void format_data_as_csv_row_array(std::ostream& os, const Tuple& t)
-   {
-      detail::expand_format_tuple<Tuple, std::tuple_size<Tuple>::value - 1>::format(os, t);
-   }
-
-   template<class DataSet>
-   void write(std::ostream& os, const format& fmt, size_t level, const DataSet& transformer)
-   {
-      const indent ind{ fmt, level };
-      const indent ind_label{ fmt, level + 1 };
-      os << ind << "var data = google.visualization.arrayToDataTable([\n";
-      os << ind_label << '[';
-
-      {	// format series
-         const auto& series = transformer.series();
-         auto it = series.begin();
-         if (it != series.end())
-            os << '\'' << (*it) << '\'';
-         while (++it != series.end())
-            os << ", '" << (*it) << '\'';
-      }
-
-      {	// format values
-         for (auto it = transformer.data().begin(); it != transformer.data().end(); ++it)
-         {
-            os << "],\n" << ind_label << '[';
-            format_data_as_csv_row_array<typename DataSet::value_type>(os, *it);
-         }
-      }
-
-      os << "]]);\n";
-   }
-
-   template<>
-   void write<data_set>(std::ostream& os, const format& fmt, size_t level, const data_set& ds);
 
    class googlechart
    {
@@ -230,25 +176,8 @@ namespace gb2gc
 
    std::ostream& operator<<(std::ostream& os, googlechart::visualization type);
 
-   template<class DataSet>
    void write(std::ostream& os, const format& fmt, size_t level,
-      const googlechart& gc, const DataSet& transformer, const std::string& chart_div)
-   {
-      const indent ind{ fmt, level };
-      const indent ind_func{ fmt, level + 1 };
-      os << ind << "google.charts.load(\"current\", {packages:[\"corechart\"]});\n";
-      os << ind << "google.charts.setOnLoadCallback(drawChart);\n";
-      os << ind << "function drawChart() {\n";
-      write(os, fmt, level + 1, transformer);
-      os << '\n';
-      detail::write_options(os, fmt, level + 1, gc.options);
-      os << '\n';
-      os << ind_func << "var chart = new google.visualization."
-         << gc.type << "(document.getElementById('"
-         << chart_div << "'));\n";
-      os << ind_func << "chart.draw(data, options);\n";
-      os << ind << "}";
-   }
+       const googlechart& gc, const data_set& data_set, const std::string& chart_div);
 
    struct googlechart_content
    {

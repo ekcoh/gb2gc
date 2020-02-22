@@ -2,8 +2,12 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef gb2gc_REDIRECT_H
-#define gb2gc_REDIRECT_H
+#ifdef _MSC_VER
+#pragma once    // Improves build time on MSVC
+#endif
+
+#ifndef GB2GC_REDIRECT_H
+#define GB2GC_REDIRECT_H
 
 #include <ostream>
 
@@ -24,4 +28,4 @@ private:
    std::streambuf * old;
 };
 
-#endif // gb2gc_REDIRECT_H
+#endif // GB2GC_REDIRECT_H

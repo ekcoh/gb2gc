@@ -2,15 +2,15 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#include "gb2gc.h"
+#include <iostream>
+#include <map>
+#include <set>
+#include <unordered_set>
 
 #include <nlohmann/json.hpp>
-#include "chart.h"
 
-#include <iostream>
-#include <unordered_set>
-#include <set>
-#include <map>
+#include "chart.h"
+#include "gb2gc.h"
 
 int gb2gc::run(int argc, const char* argv[])
 {

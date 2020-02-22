@@ -130,8 +130,7 @@ void gb2gc::detail::write_options(std::ostream& os, const format& fmt,
    os << ind << "};\n";
 }
 
-template<>
-void gb2gc::write<gb2gc::data_set>(std::ostream& os, const format& fmt, 
+void gb2gc::detail::write_data_set(std::ostream& os, const format& fmt,
    size_t level, const data_set& ds)
 {
    const indent ind{ fmt, level };
@@ -159,4 +158,23 @@ void gb2gc::write<gb2gc::data_set>(std::ostream& os, const format& fmt,
    }
 
    os << "]);\n";
+}
+
+void gb2gc::write(std::ostream& os, const format& fmt, size_t level,
+    const googlechart& gc, const data_set& data_set, const std::string& chart_div)
+{
+    const indent ind{ fmt, level };
+    const indent ind_func{ fmt, level + 1 };
+    os << ind << "google.charts.load(\"current\", {packages:[\"corechart\"]});\n";
+    os << ind << "google.charts.setOnLoadCallback(drawChart);\n";
+    os << ind << "function drawChart() {\n";
+    detail::write_data_set(os, fmt, level + 1, data_set);
+    os << '\n';
+    detail::write_options(os, fmt, level + 1, gc.options);
+    os << '\n';
+    os << ind_func << "var chart = new google.visualization."
+        << gc.type << "(document.getElementById('"
+        << chart_div << "'));\n";
+    os << ind_func << "chart.draw(data, options);\n";
+    os << ind << "}";
 }

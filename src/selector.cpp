@@ -2,8 +2,8 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef gb2gc_SELECTOR_H
-#define gb2gc_SELECTOR_H
+#ifndef GB2GC_SELECTOR_H
+#define GB2GC_SELECTOR_H
 
 #include "gb2gc.h"
 #include "variant.h"
@@ -68,7 +68,6 @@ gb2gc::selector::param_index() const
    return param_index_;
 }
 
-// TODO MOVE
 std::vector<std::string>
 gb2gc::split(const std::string& s, char delimiter)
 {
@@ -83,4 +82,4 @@ gb2gc::split(const std::string& s, char delimiter)
    return tokens;
 }
 
-#endif // gb2gc_SELECTOR_H
+#endif // GB2GC_SELECTOR_H

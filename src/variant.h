@@ -5,12 +5,12 @@
 #ifndef GB2GC_CHART_VARIANT_H
 #define GB2GC_CHART_VARIANT_H
 
-#include <nonstd/variant.hpp>
-
-#include <iostream>
-#include <string>
-#include <sstream>
 #include <exception>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+#include <nonstd/variant.hpp>
 
 namespace gb2gc
 {
