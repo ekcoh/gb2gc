@@ -73,12 +73,11 @@ Which shows the following HTML:
 
 ## CMake usage
 
-The project comes with utility functions gb2gc_add_benchmark(...) and gb2gc_add_benchmark_chart(...)
-that simplifies CMake integration of Google Benchmark binaries and result chart by generating
-custom commands and custom targets to run benchmark binaries to generate results and to convert
-those results to HTML charts for visual analysis or documentation.
+Using gb2gc from within CMake is even easier than using it from command-line. Just setup a benchmark project as usual
+as described by [Google Benchmark documentation](https://github.com/google/benchmark) and use utility functions
+gb2gc_add_benchmark(...) and gb2gc_add_benchmark_chart(...) to setup custom targets at configure-time.
 
-The gb2gc_add_benchmark(...) function can be used to setup a run target for an existing 
+The gb2gc_add_benchmark(...) function can be used to setup a run target for an existing
 Google Benchmark executable target:
 
 ```
@@ -101,7 +100,7 @@ A simple but fully functional example is provided in /example/01_getting_started
 which showcases how to setup run target for a simple benchmark and generate a bar chart illustrating
 execution time of memcpy for different memory block sizes.
 
-For a complete list of CMake examples, see /examples folder. 
+For a complete list of CMake examples, see /examples folder.
 
 ## License
 
