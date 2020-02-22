@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Key', ' cpu_time', ' real_time'],
+          ['memcpy/8',2.825056,2.803555],
+          ['memcpy/64',4.272461,4.271381],
+          ['memcpy/512',16.043527,15.737263],
+          ['memcpy/1024',18.415179,18.654675],
+          ['memcpy/8192',141.252784,140.925931]]);
+
+        var options = {
+          hAxis: {          title: 'Nanoseconds (ns)',
+          },
+          vAxis: {          },
+          title: 'Execution time of memcpy as function of block sizes',
+          legend: { position: 'none' },
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('memcpy_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <!-- This div element will hold the generated chart -->
+    <div id="memcpy_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

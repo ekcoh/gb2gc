@@ -98,12 +98,34 @@ add_subdirectory(${CMAKE_BINARY_DIR}/external/variant_lite-src
                  ${CMAKE_BINARY_DIR}/external/variant_lite-build
                  EXCLUDE_FROM_ALL)
 
+###################################################################################################
+# Download and unpack optional-lite at configure time
+configure_file(external/optional_lite/CMakeLists.txt.in external/optional_lite-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/optional_lite-download )
+if(result)
+  message(FATAL_ERROR "CMake step for variant_lite failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/optional_lite-download )
+if(result)
+  message(FATAL_ERROR "Build step for variant_lite failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_BINARY_DIR}/external/optional_lite-src
+                 ${CMAKE_BINARY_DIR}/external/optional_lite-build
+                 EXCLUDE_FROM_ALL)
+
 project(gb2gc
 	VERSION 0.1.0
 	DESCRIPTION "Basic command-line tool to convert Google Benchmark json output to Google Charts"
 	HOMEPAGE_URL "https://github.com/ekcoh/gb2gc"
 	LANGUAGES CXX
 )
+
+include(cmake/add_benchmark.cmake)
 
 # Define a upper case variable to carry upper case project name for variable definitions
 string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UCASE)
@@ -118,7 +140,7 @@ if (NOT GB2GC_BUILD_TESTS AND GB2GC_CODE_COVERAGE)
     set(FGB2GC_BUILD_TESTS OFF)
 endif()
 
-add_executable(${PROJECT_NAME}
+set(GB2GC_SOURCE_FILES 
 	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/gbm2gc.h"
 	"${CMAKE_CURRENT_LIST_DIR}/src/gbm2gc.cpp"
@@ -128,7 +150,11 @@ add_executable(${PROJECT_NAME}
 	"${CMAKE_CURRENT_LIST_DIR}/src/data_set.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/dom.h"
    "${CMAKE_CURRENT_LIST_DIR}/src/dom.cpp"
-   "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"
+   "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"   
+)
+
+add_executable(${PROJECT_NAME}
+	${GB2GC_SOURCE_FILES}
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)
@@ -149,7 +175,8 @@ endif(MSVC)
 
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE nlohmann_json::nlohmann_json
-	PRIVATE variant-lite
+	PRIVATE nonstd::variant-lite
+#   PRIVATE optional_lite
 )
 
 if (GB2GC_BUILD_TESTS)

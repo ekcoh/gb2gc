@@ -1,2 +1,3 @@
+add_subdirectory(01_getting_started)
 add_subdirectory(benchmark1)
 add_subdirectory(benchmark2)

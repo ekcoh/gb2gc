@@ -64,16 +64,15 @@ Arguments:
   width            The width of the chart in pixels.
 ```
 
-An example of how use the gb2gc command-line tool is given below which converts a benchmark to a bar-chart and provides a custom title. The -v options is provided to open the HTML page directly after successful conversion using the system default program:
+An example of how use the gb2gc command-line tool is given below which converts a benchmark to a bar-chart and provides a custom title. The -v option is provided to open the HTML page directly after successful conversion using the system default program:
 
 ```
-> gb2gc -c bar benchmark.txt -o benchmark.html -t "My benchmark"
+> gb2gc -c bar -i memcpy.json -o memcpy.html -t "Execution time of memcpy as function of block sizes" -y "Nanoseconds (ns)" -v
 ```
 
 Which shows the following HTML:
 
 ![gb2gc CLI example chart output](https://user-images.githubusercontent.com/8974064/75090534-21c6f900-5564-11ea-956a-5dc788324a7f.gif)
-
 
 ## CMake usage
 

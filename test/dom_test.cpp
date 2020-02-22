@@ -4,7 +4,7 @@
 
 #include <gtest/gtest.h>
 
-#include "dom.h"
+#include "dom.h" // Subject under test (SUT)
 
 using namespace gb2gc;
 

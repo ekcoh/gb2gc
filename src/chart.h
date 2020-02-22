@@ -25,22 +25,19 @@ namespace gb2gc
 
    struct color
    {
-      using byte = unsigned char;
+      static_assert(CHAR_BIT == 8, "Requires platform where char is a byte");
 
-      byte r;
-      byte g;
-      byte b;
+      unsigned char r;
+      unsigned char g;
+      unsigned char b;
    };
 
-   inline color make_color(color::byte r, color::byte g, color::byte b) noexcept
+   inline color make_color(unsigned char r, unsigned char g, unsigned char b) noexcept
    {
       return color{ r, g, b };
    }
 
-   static inline std::ostream& operator<<(std::ostream& os, const color& color)
-   {  // format color as #rrggbb
-      os << '#' << std::hex << color.r << color.g << color.b;
-   }
+   std::ostream& operator<<(std::ostream& os, const color& color);
 
    // axis
 
@@ -99,9 +96,6 @@ namespace gb2gc
    std::ostream& operator<<(std::ostream& os, googlechart_options::position pos);
    std::ostream& operator<<(std::ostream& os, googlechart_options::curve curve);
 
-   void write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis);
-   void write(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt);
-
    namespace detail
    {
       template<class Tuple, size_t Index>
@@ -124,6 +118,9 @@ namespace gb2gc
             os << std::get<0>(t);
          }
       };
+
+      void write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis);
+      void write_options(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt);
    }
 
    // Specialization for tuple data
@@ -246,7 +243,7 @@ namespace gb2gc
       os << ind << "function drawChart() {\n";
       write(os, fmt, level + 1, transformer);
       os << '\n';
-      write(os, fmt, level + 1, gc.options);
+      detail::write_options(os, fmt, level + 1, gc.options);
       os << '\n';
       os << ind_func << "var chart = new google.visualization."
          << gc.type << "(document.getElementById('"

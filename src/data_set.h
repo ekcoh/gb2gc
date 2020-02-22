@@ -492,8 +492,8 @@ namespace gb2gc
       data_type columns_;
    };
 
-   std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set::const_row_iterator& rit);
-   std::ostream& operator<<(std::ostream& os, const ::gb2gc::data_set& ds);
+   std::ostream& operator<<(std::ostream& os, const data_set::const_row_iterator& rit);
+   std::ostream& operator<<(std::ostream& os, const data_set& ds);
 
 } // namespace gb2gc
 

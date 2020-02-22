@@ -47,14 +47,14 @@ add_custom_command(
 add_custom_command(
 	OUTPUT ${CMAKE_BINARY_DIR}/benchmark1.html
 	COMMAND $<TARGET_FILE:${PROJECT_NAME}> 
-		-c bar										# Bar chart
-		-i "${CMAKE_BINARY_DIR}/benchmark1.json"	# Input file
-		-o "${CMAKE_BINARY_DIR}/benchmark1.html"    # Output file
-		-t "Benchmark 1 Example"                    # Custom chart title
-		-w 1100                                     # Width of chart in px
-		-h 900                                      # Height of chart in px
-		-y "Time (nanoseconds)"                     # Custom y-axis label
-		-l right                                    # Custom legend position
+		-c bar
+		-i "${CMAKE_BINARY_DIR}/benchmark1.json"
+		-o "${CMAKE_BINARY_DIR}/benchmark1.html"
+		-t "Benchmark 1 Example - memcpy vs. memmove for different data sizes"
+		-w 1100
+		-h 900
+		-y "Time (nanoseconds)"
+		-l right
 	DEPENDS 
 		${PROJECT_NAME} 
 		${CMAKE_BINARY_DIR}/benchmark1.json

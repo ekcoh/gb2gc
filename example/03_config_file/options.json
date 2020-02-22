@@ -1,0 +1,11 @@
+{
+  hAxis: {
+    title: 'Time (nanoseconds)',
+  },
+  vAxis: {
+  },
+  title: 'Benchmark 1 Example - memcpy vs. memmove for different data sizes',
+  legend: {
+    position: 'right' 
+  },
+}

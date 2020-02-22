@@ -4,6 +4,12 @@
 
 #include "chart.h"
 
+std::ostream& gb2gc::operator<<(std::ostream& os, const color& color)
+{  // format color as #rrggbb
+   os << '#' << std::hex << color.r << color.g << color.b;
+   return os;
+}
+
 std::ostream&
 gb2gc::operator<<(std::ostream& os, gb2gc::googlechart_options::position pos)
 {
@@ -68,7 +74,8 @@ gb2gc::operator<<(std::ostream& os, googlechart::visualization type)
    return os;
 }
 
-void gb2gc::write_axis(std::ostream& os, const format& fmt, size_t level, const axis& axis)
+void gb2gc::detail::write_axis(std::ostream& os, const format& fmt, 
+   size_t level, const axis& axis)
 {
    const indent ind{ fmt, level };
    const indent ind_opt{ fmt, level + 1 };
@@ -76,7 +83,8 @@ void gb2gc::write_axis(std::ostream& os, const format& fmt, size_t level, const 
       os << ind_opt << "title: '" << axis.title << "',\n";
 }
 
-void gb2gc::write(std::ostream& os, const format& fmt, size_t level, const googlechart_options& opt)
+void gb2gc::detail::write_options(std::ostream& os, const format& fmt, 
+   size_t level, const googlechart_options& opt)
 {
    const indent ind{ fmt, level };
    const indent ind_opt{ fmt, level + 1 };
@@ -110,7 +118,8 @@ void gb2gc::write(std::ostream& os, const format& fmt, size_t level, const googl
 }
 
 template<>
-void gb2gc::write<gb2gc::data_set>(std::ostream& os, const format& fmt, size_t level, const data_set& ds)
+void gb2gc::write<gb2gc::data_set>(std::ostream& os, const format& fmt, 
+   size_t level, const data_set& ds)
 {
    const indent ind{ fmt, level };
    const indent ind_label{ fmt, level + 1 };
