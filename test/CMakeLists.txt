@@ -57,4 +57,15 @@ add_custom_command(TARGET ${PROJECT_NAME}_unit_tests POST_BUILD
         "${CMAKE_CURRENT_SOURCE_DIR}/benchmark2.json"
         $<TARGET_FILE_DIR:${PROJECT_NAME}_unit_tests>)
 
+add_custom_command(TARGET ${PROJECT_NAME}_unit_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/chart1.html"
+        $<TARGET_FILE_DIR:${PROJECT_NAME}_unit_tests>)
+
+add_custom_command(TARGET ${PROJECT_NAME}_unit_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/chart2.html"
+        $<TARGET_FILE_DIR:${PROJECT_NAME}_unit_tests>)
+
+
 add_test(NAME ${PROJECT_NAME}_unit_tests COMMAND ${PROJECT_NAME}_unit_tests )

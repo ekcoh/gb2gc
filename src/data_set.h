@@ -35,6 +35,14 @@ namespace gb2gc
       using column_iterator = data_type::iterator;
       using const_column_iterator = data_type::const_iterator;
 
+      data_set() = default;
+      explicit data_set(std::initializer_list<std::string> columns)
+      { 
+          columns_.reserve(columns.size());
+          for (auto& name : columns)
+              columns_.emplace_back(std::move(name));
+      }
+
       std::vector<std::string> series() const
       {
          std::vector<std::string> series;
@@ -46,7 +54,7 @@ namespace gb2gc
 
       struct column_type
       {
-         column_type(size_t rows = 0, std::string name = std::string()) :
+         column_type(std::string name = std::string(), size_t rows = 0) :
             name_(std::move(name)), data_(rows)
          {}
          ~column_type() noexcept = default;
@@ -62,6 +70,7 @@ namespace gb2gc
          bool empty() const { return data_.empty(); }
          void reserve(size_t rows) { data_.reserve(rows); }
          const std::string& name() const { return name_; }
+         void set_name(const char* name) { name_ = name; }
          void set_name(const std::string& name) { name_ = name; }
       private:
          void add_row(variant value = variant{}) { data_.emplace_back(std::move(value)); }
@@ -407,7 +416,7 @@ namespace gb2gc
 
       void add_column(const std::string& name)
       {
-         columns_.emplace_back(std::move(column_type{ rows(), name }));
+         columns_.emplace_back(std::move(column_type{ name, rows() }));
       }
 
       void add_row()

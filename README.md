@@ -102,6 +102,11 @@ execution time of memcpy for different memory block sizes.
 
 For a complete list of CMake examples, see /examples folder.
 
+## How to build
+
+Just add the project as a sub-project to your existing CMake project.
+Dependencies are downloaded automatically by default and built as part of the project.
+
 ## License
 
-This project is distributed under the MIT license, see: LICENSE.
+This project is distributed under the MIT license, see: [LICENSE](LICENSE).

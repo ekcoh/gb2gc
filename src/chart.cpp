@@ -74,13 +74,15 @@ gb2gc::operator<<(std::ostream& os, googlechart::visualization type)
    return os;
 }
 
-void gb2gc::detail::write_axis(std::ostream& os, const format& fmt, 
-   size_t level, const axis& axis)
+void gb2gc::detail::write_axis(std::ostream& os, const format& /*fmt*/, 
+   size_t /*level*/, const axis& axis)
 {
-   const indent ind{ fmt, level };
-   const indent ind_opt{ fmt, level + 1 };
-   if (!axis.title.empty())
-      os << ind_opt << "title: '" << axis.title << "',\n";
+    os << "{";
+    if (!axis.title.empty())
+    {
+        os << " title: '" << axis.title << "' ";
+    }
+    os << "}";
 }
 
 void gb2gc::detail::write_options(std::ostream& os, const format& fmt, 
@@ -89,25 +91,21 @@ void gb2gc::detail::write_options(std::ostream& os, const format& fmt,
    const indent ind{ fmt, level };
    const indent ind_opt{ fmt, level + 1 };
    os << ind << "var options = {\n";
-   //os << ind_opt << "vAxis: {direction: -1},\n"; // TODO Make option
-   /*os << ind_opt << "hAxis: { title: 'X-axis' },\n";
-   os << ind_opt << "vAxis: { title: 'Y-axis' },\n";*/
-   os << ind_opt << "hAxis: {";
+   os << ind_opt << "hAxis: ";
    write_axis(os, fmt, level, opt.horizontal_axis);
-   os << ind_opt << "},\n";
-   os << ind_opt << "vAxis: {";
+   os << ",\n";
+   os << ind_opt << "vAxis: ";
    write_axis(os, fmt, level, opt.vertical_axis);
-   os << ind_opt << "},\n";
+   os << ",\n";
    if (!opt.title.empty())
       os << ind_opt << "title: '" << opt.title << "',\n";
-   //if (opt.legend != googlechart_options::position::none)
    os << ind_opt << "legend: { position: '" << opt.legend << "' },\n";
    if (!opt.colors.empty())
       os << ind_opt << "colors: [ '#01beff', '#3af2a2' ],\n";
    if (opt.curve_type != googlechart_options::curve::none)
       os << ind_opt << "curveType: '" << opt.curve_type << "',\n";
    if (!opt.font_name.empty())
-      os << ind_opt << "fontName: '" << opt.font_name << ",'\n";
+      os << ind_opt << "fontName: '" << opt.font_name << "',\n";
    if (opt.data_opacity != 1.0f)
       os << ind_opt << "dataOpacity: " << opt.data_opacity << ",\n";
    if (opt.interpolate_nulls)
