@@ -16,8 +16,6 @@
 #include <array>
 #include <ctime>
 
-// TODO Consider https://stackoverflow.com/questions/41893055/add-subtitle-in-areachart-in-google-chart
-
 namespace gb2gc
 {
    ////////////////////////////////////////////////////////////////////////////
@@ -44,6 +42,8 @@ namespace gb2gc
    struct axis
    {
       std::string title;
+      variant     min_value;
+      variant     max_value;
    };
 
    // googlechart_dom_options
@@ -87,8 +87,6 @@ namespace gb2gc
       bool               interpolate_nulls = false;
       // colors: ['green']
       // histogram: { bucketSize: 10000000 }
-      // hAxis: {title: 'Age', minValue : 0, maxValue : 15},
-      // vAxis : {title: 'Weight', minValue : 0, maxValue : 15},
       axis horizontal_axis;
       axis vertical_axis;
    };

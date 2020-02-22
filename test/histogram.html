@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['X', 'Y'],
+          [0.000000,1.000000],
+          [1.000000,3.000000],
+          [2.000000,5.000000],
+          [3.000000,7.000000],
+          [4.000000,9.000000],
+          [5.000000,11.000000],
+          [6.000000,13.000000],
+          [7.000000,15.000000],
+          [8.000000,17.000000],
+          [9.000000,19.000000]]);
+
+        var options = {
+          hAxis: { minValue: -5, maxValue: 10 },
+          vAxis: { minValue: -5, maxValue: 10 },
+          title: 'rounding, legend and axes',
+          legend: { position: 'left' },
+          curveType: 'none',
+          dataOpacity: 0.5,
+        };
+
+        var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <!-- This div element will hold the generated chart -->
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

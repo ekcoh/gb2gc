@@ -78,11 +78,26 @@ void gb2gc::detail::write_axis(std::ostream& os, const format& /*fmt*/,
    size_t /*level*/, const axis& axis)
 {
     os << "{";
+    bool write = false;
     if (!axis.title.empty())
     {
-        os << " title: '" << axis.title << "' ";
+        if (write) os << ",";
+        os << " title: '" << axis.title << '\'';
+        write = true;
     }
-    os << "}";
+    if (axis.min_value.index() != 0)
+    {
+        if (write) os << ",";
+        os << " minValue: " << axis.min_value;
+        write = true;
+    }
+    if (axis.max_value.index() != 0)
+    {
+        if (write) os << ",";
+        os << " maxValue: " << axis.max_value;
+        write = true;
+    }
+    os << " }";
 }
 
 void gb2gc::detail::write_options(std::ostream& os, const format& fmt, 

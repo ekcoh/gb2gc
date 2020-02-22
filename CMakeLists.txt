@@ -126,6 +126,7 @@ project(gb2gc
 )
 
 include(cmake/add_benchmark.cmake)
+include(cmake/add_binary_dir_copy.cmake)
 
 # Define a upper case variable to carry upper case project name for variable definitions
 string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UCASE)
@@ -141,7 +142,6 @@ if (NOT GB2GC_BUILD_TESTS AND GB2GC_CODE_COVERAGE)
 endif()
 
 set(GB2GC_SOURCE_FILES 
-	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.h"
 	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/options.cpp"
@@ -155,6 +155,7 @@ set(GB2GC_SOURCE_FILES
 
 add_executable(${PROJECT_NAME}
 	${GB2GC_SOURCE_FILES}
+    "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)
