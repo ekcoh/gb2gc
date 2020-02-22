@@ -2,13 +2,13 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#include "gbm2gc.h"
+#include "gb2gc.h"
 
 int main(int argc, const char* argv[])
 {
    try
    {
-      return gbm2gc::run(argc, argv);
+      return gb2gc::run(argc, argv);
    }
    catch (const std::exception& e)
    {

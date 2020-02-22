@@ -11,13 +11,13 @@
 
 using namespace gb2gc;
 
-class data_set_test : public ::testing::Test
+class gb2gc_data_set_test : public ::testing::Test
 {
    void SetUp()
    { }
 };
 
-TEST_F(data_set_test, is_iterator__should_return_true__if_type_is_iterator)
+TEST_F(gb2gc_data_set_test, is_iterator__should_return_true__if_type_is_iterator)
 {
    EXPECT_TRUE((gb2gc::is_iterator< std::vector<int>::iterator >::value));
    EXPECT_TRUE((gb2gc::is_iterator< std::array<short, 5>::iterator >::value));
@@ -25,7 +25,7 @@ TEST_F(data_set_test, is_iterator__should_return_true__if_type_is_iterator)
    EXPECT_FALSE((gb2gc::is_iterator< std::vector<int> > ::value));
 }
 
-TEST_F(data_set_test, ctor__should_create_empty_data_set__if_default_constructed)
+TEST_F(gb2gc_data_set_test, ctor__should_create_empty_data_set__if_default_constructed)
 {
    data_set ds;
 
@@ -34,7 +34,7 @@ TEST_F(data_set_test, ctor__should_create_empty_data_set__if_default_constructed
    EXPECT_TRUE(ds.empty());
 }
 
-TEST_F(data_set_test, usage__replace_with_better_tests)
+TEST_F(gb2gc_data_set_test, usage__replace_with_better_tests)
 {
    data_set ds;
    ds.resize_cols(3);
@@ -65,7 +65,7 @@ TEST_F(data_set_test, usage__replace_with_better_tests)
    EXPECT_TRUE(it == ds.row_end());
 }
 
-TEST_F(data_set_test, xxx)
+TEST_F(gb2gc_data_set_test, xxx)
 {
    //data_set ds;
    //ds.reserve_cols(3);

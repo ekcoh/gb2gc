@@ -142,15 +142,15 @@ endif()
 
 set(GB2GC_SOURCE_FILES 
 	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
-	"${CMAKE_CURRENT_LIST_DIR}/src/gbm2gc.h"
-	"${CMAKE_CURRENT_LIST_DIR}/src/gbm2gc.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.h"
+	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/options.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/selector.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/chart.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/data_set.cpp"
 	"${CMAKE_CURRENT_LIST_DIR}/src/dom.h"
-   "${CMAKE_CURRENT_LIST_DIR}/src/dom.cpp"
-   "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"   
+    "${CMAKE_CURRENT_LIST_DIR}/src/dom.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"   
 )
 
 add_executable(${PROJECT_NAME}
@@ -168,7 +168,10 @@ if(MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
 
     # Make executable not depend on run-time dlls for simpler distribution.
-    target_compile_options(${PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:/MT>)
+    #target_compile_options(${PROJECT_NAME} PUBLIC $<$<CONFIG:Release>:/MT>)
+    # Use a multi-threaded statically-linked runtime library for better portability
+    set_property(TARGET ${PROJECT_NAME} 
+        PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 else(MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -pedantic -Werror)
 endif(MSVC)

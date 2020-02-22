@@ -2,11 +2,11 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#include "gbm2gc.h"
+#include "gb2gc.h"
 
 struct option
 {
-   using parser = std::function<int(const gbm2gc::span<const char*>& args)>;
+   using parser = std::function<int(const gb2gc::span<const char*>& args)>;
 
    char     flag;       // option flag
    bool     required;   // is required option?
@@ -27,7 +27,7 @@ bool operator!=(const option& o1, const option& o2)
    return !(o1 == o2);
 }
 
-bool has_parsed_group_flag(unsigned group, const gbm2gc::span<option>& options)
+bool has_parsed_group_flag(unsigned group, const gb2gc::span<option>& options)
 {
    for (auto i = 0u; i < options.count; ++i)
    {
@@ -37,7 +37,7 @@ bool has_parsed_group_flag(unsigned group, const gbm2gc::span<option>& options)
    return false;
 }
 
-std::string get_group_flags(unsigned group, const gbm2gc::span<option>& options)
+std::string get_group_flags(unsigned group, const gb2gc::span<option>& options)
 {
    std::string group_flags;
    for (auto i = 0u; i < options.count; ++i)
@@ -58,60 +58,60 @@ bool is_option(const char* arg)
    return (arg[0] == '-' && arg[1] != '\0' && arg[2] == '\0');
 }
 
-const std::vector<gbm2gc::selector> gbm2gc::options::default_selectors(
+const std::vector<gb2gc::selector> gb2gc::options::default_selectors(
    {
       selector("name"),		// X (key)
       selector("cpu_time"),	// Y
       selector("real_time")	// Z
    });
 
-gbm2gc::options::options()
+gb2gc::options::options()
 { }
 
 const std::string&
-gbm2gc::options::in_file() const
+gb2gc::options::in_file() const
 {
    return in_file_;
 }
 
 const std::string&
-gbm2gc::options::out_file() const
+gb2gc::options::out_file() const
 {
    return out_file_;
 }
 
 const std::string&
-gbm2gc::options::filter() const
+gb2gc::options::filter() const
 {
    return filter_;
 }
 
 bool
-gbm2gc::options::has_filter() const
+gb2gc::options::has_filter() const
 {
    return !filter_.empty();
 }
 
 const gb2gc::googlechart_dom_options&
-gbm2gc::options::dom_options() const
+gb2gc::options::dom_options() const
 {
    return gc_dom_options_;
 }
 
 const gb2gc::googlechart_options&
-gbm2gc::options::chart_options() const
+gb2gc::options::chart_options() const
 {
    return gc_options_;
 }
 
 const gb2gc::googlechart::visualization
-gbm2gc::options::chart_type() const
+gb2gc::options::chart_type() const
 {
    return gc_type_;
 }
 
-const std::vector<gbm2gc::selector>&
-gbm2gc::options::selectors() const
+const std::vector<gb2gc::selector>&
+gb2gc::options::selectors() const
 {
    if (selectors_.empty())
       return default_selectors;
@@ -119,7 +119,7 @@ gbm2gc::options::selectors() const
 }
 
 int
-gbm2gc::options::parse_size(unsigned& dst, const char* arg)
+gb2gc::options::parse_size(unsigned& dst, const char* arg)
 {
    try
    {
@@ -137,7 +137,7 @@ gbm2gc::options::parse_size(unsigned& dst, const char* arg)
 }
 
 int
-gbm2gc::options::parse_chart_type(const char* arg)
+gb2gc::options::parse_chart_type(const char* arg)
 {
    if (strcmp(arg, "bar") == 0)
       this->gc_type_ = gb2gc::googlechart::visualization::bar;
@@ -153,7 +153,7 @@ gbm2gc::options::parse_chart_type(const char* arg)
 }
 
 int
-gbm2gc::options::parse_legend(const char* arg)
+gb2gc::options::parse_legend(const char* arg)
 {
    if (strcmp(arg, "none") == 0)
       this->gc_options_.legend = gb2gc::googlechart_options::position::none;
@@ -171,7 +171,7 @@ gbm2gc::options::parse_legend(const char* arg)
 }
 
 int
-gbm2gc::options::parse_selector(const span<const char*>& args)
+gb2gc::options::parse_selector(const span<const char*>& args)
 {
    for (auto& arg : args)
    {
@@ -181,13 +181,13 @@ gbm2gc::options::parse_selector(const span<const char*>& args)
 }
 
 int
-gbm2gc::options::parse_filter(const char* arg)
+gb2gc::options::parse_filter(const char* arg)
 {
    filter_ = arg;
    return 0;
 }
 
-int gbm2gc::options::parse(int argc, const char* argv[])
+int gb2gc::options::parse(int argc, const char* argv[])
 {
    if (argc <= 0)
       return show_error("Missing command-line arguments.");
@@ -284,7 +284,7 @@ int gbm2gc::options::parse(int argc, const char* argv[])
    return 0;
 }
 
-void gbm2gc::options::print_usage(const char* cmd)
+void gb2gc::options::print_usage(const char* cmd)
 {
    // Arguments are IEEE 1003.1 compliant: 
    // http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap12.html
@@ -319,7 +319,7 @@ void gbm2gc::options::print_usage(const char* cmd)
       "\n";
 }
 
-int gbm2gc::options::show_error(const std::string& message, const char* cmd)
+int gb2gc::options::show_error(const std::string& message, const char* cmd)
 {
    std::cerr << "Error: " << message << "\n\n";
    print_usage(cmd);

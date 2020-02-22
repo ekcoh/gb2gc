@@ -2,13 +2,13 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef GBM2GC_SELECTOR_H
-#define GBM2GC_SELECTOR_H
+#ifndef gb2gc_SELECTOR_H
+#define gb2gc_SELECTOR_H
 
-#include "gbm2gc.h"
+#include "gb2gc.h"
 #include "variant.h"
 
-gbm2gc::selector::selector(const std::string& name) :
+gb2gc::selector::selector(const std::string& name) :
    key_(name), param_index_((std::numeric_limits<unsigned>::max)())
 {
    auto splits = split(name, '/');
@@ -20,7 +20,7 @@ gbm2gc::selector::selector(const std::string& name) :
 }
 
 gb2gc::variant
-gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
+gb2gc::selector::operator()(const nlohmann::json& benchmark) const
 {
    auto node = benchmark.find(key_);
    if (node == benchmark.end())
@@ -51,26 +51,26 @@ gbm2gc::selector::operator()(const nlohmann::json& benchmark) const
 }
 
 const std::string&
-gbm2gc::selector::key() const
+gb2gc::selector::key() const
 {
    return key_;
 }
 
 bool
-gbm2gc::selector::is_parameterized() const
+gb2gc::selector::is_parameterized() const
 {
    return param_index_ != (std::numeric_limits<unsigned>::max)();
 }
 
 unsigned
-gbm2gc::selector::param_index() const
+gb2gc::selector::param_index() const
 {
    return param_index_;
 }
 
 // TODO MOVE
 std::vector<std::string>
-gbm2gc::split(const std::string& s, char delimiter)
+gb2gc::split(const std::string& s, char delimiter)
 {
    std::vector<std::string> tokens;
    if (!s.empty())
@@ -83,4 +83,4 @@ gbm2gc::split(const std::string& s, char delimiter)
    return tokens;
 }
 
-#endif // GBM2GC_SELECTOR_H
+#endif // gb2gc_SELECTOR_H

@@ -31,9 +31,6 @@ by running the tool without given any arguments:
 
 ```
 > gb2gc
-
-Error: Missing required option -c
-
 Google Benchmark to Google Chart Converter (GB2GC) v0.1.0
 Tutorial available at: https://github.com/ekcoh/gb2gc
 
@@ -74,7 +71,38 @@ Which shows the following HTML:
 
 ![gb2gc CLI example chart output](https://user-images.githubusercontent.com/8974064/75090534-21c6f900-5564-11ea-956a-5dc788324a7f.gif)
 
-
 ## CMake usage
 
-TBD
+The project comes with utility functions gb2gc_add_benchmark(...) and gb2gc_add_benchmark_chart(...)
+that simplifies CMake integration of Google Benchmark binaries and result chart by generating
+custom commands and custom targets to run benchmark binaries to generate results and to convert
+those results to HTML charts for visual analysis or documentation.
+
+The gb2gc_add_benchmark(...) function can be used to setup a run target for an existing 
+Google Benchmark executable target:
+
+```
+gb2gc_add_benchmark(TARGET my_benchmark OUT my_benchmark.json)
+```
+
+The script above will setup a custom target 'my_benchmark_run' which can be built to generate 'my_benchmark.json'.
+Since we are not specifying the working directory it defaults to CMAKE_CURRENT_BINARY_DIR.
+
+We can then use gb2gc_add_benchmark_chart(...) to generate a HTML chart representing an interpretation
+of my_benchmark.json. In case we just want illustrate all benchmarks as a bart chart we can use:
+
+```
+gb2gc_add_benchmark_chart(INPUT my_benchmark.json OUTPUT my_benchmark.html)
+```
+
+This will create a custom target 'my_benchmark_chart' which can be built to generate 'my_benchmark.html'.
+
+A simple but fully functional example is provided in /example/01_getting_started/CMakeLists.txt
+which showcases how to setup run target for a simple benchmark and generate a bar chart illustrating
+execution time of memcpy for different memory block sizes.
+
+For a complete list of CMake examples, see /examples folder. 
+
+## License
+
+This project is distributed under the MIT license, see: LICENSE.

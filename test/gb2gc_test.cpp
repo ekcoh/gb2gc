@@ -3,13 +3,13 @@
 // root directory of this distribution.
 
 #include <gtest/gtest.h>
-#include "gbm2gc.h"
+#include "gb2gc.h"
 
 #include <algorithm>
 
-using namespace gbm2gc;
+using namespace gb2gc;
 
-class gbm2gc_generator_test : public ::testing::Test
+class gb2gc_generator_test : public ::testing::Test
 {
 public:
    void SetUp()
@@ -33,13 +33,13 @@ public:
    static unsigned file_name_no;
 };
 
-unsigned gbm2gc_generator_test::file_name_no = 0u;
+unsigned gb2gc_generator_test::file_name_no = 0u;
 
-TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input)
+TEST_F(gb2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input)
 {
    const char* args[] =
    {
-      "gbm2gc.exe",
+      "gb2gc.exe",
       "-i",
       "benchmark1.json",
       "-o",
@@ -47,15 +47,15 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid
       "-c", "line"
    };
 
-   EXPECT_EQ(gbm2gc::run(7, args), 0);
+   EXPECT_EQ(gb2gc::run(7, args), 0);
    EXPECT_TRUE(file_exists());
 }
 
-TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input_with_selector)
+TEST_F(gb2gc_generator_test, run__should_be_successful__if_line_chart_and_valid_input_with_selector)
 {
    const char* args[] =
    {
-      "gbm2gc.exe",
+      "gb2gc.exe",
       "-i",
       "benchmark1.json",
       "-o",
@@ -67,16 +67,16 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_line_chart_and_valid
       "-y", "Bytes per second"
    };
 
-   EXPECT_EQ(gbm2gc::run(16, args), 0);
+   EXPECT_EQ(gb2gc::run(16, args), 0);
    EXPECT_TRUE(file_exists());
 }
 
 
-TEST_F(gbm2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_input)
+TEST_F(gb2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_input)
 {
    const char* args[] =
    {
-      "gbm2gc.exe",
+      "gb2gc.exe",
       "-c", "bar",
       "-i",
       "benchmark2.json",
@@ -89,7 +89,7 @@ TEST_F(gbm2gc_generator_test, run__should_be_successful__if_bar_chart_and_valid_
       "-l", "right"
    };
 
-   EXPECT_EQ(gbm2gc::run(15, args), 0);
+   EXPECT_EQ(gb2gc::run(15, args), 0);
    EXPECT_TRUE(file_exists());
 }
 

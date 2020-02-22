@@ -2,8 +2,8 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef GBM2GC_REDIRECT_H
-#define GBM2GC_REDIRECT_H
+#ifndef gb2gc_REDIRECT_H
+#define gb2gc_REDIRECT_H
 
 #include <ostream>
 
@@ -24,4 +24,4 @@ private:
    std::streambuf * old;
 };
 
-#endif // GBM2GC_REDIRECT_H
+#endif // gb2gc_REDIRECT_H

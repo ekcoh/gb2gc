@@ -2,8 +2,8 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef GBM2GC_H
-#define GBM2GC_H
+#ifndef gb2gc_H
+#define gb2gc_H
 
 #include "chart.h"
 
@@ -11,7 +11,7 @@
 #include <vector>
 #include <nlohmann/json.hpp>
 
-namespace gbm2gc
+namespace gb2gc
 {
    static constexpr int ERROR_NO_ERROR = 0;
    static constexpr int ERROR_INVALID_ARGUMENT = 1;
@@ -123,4 +123,4 @@ namespace gbm2gc
 
 } // namespace gb2gc
 
-#endif // GBM2GC_H
+#endif // gb2gc_H

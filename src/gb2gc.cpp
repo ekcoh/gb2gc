@@ -2,7 +2,7 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#include "gbm2gc.h"
+#include "gb2gc.h"
 
 #include <nlohmann/json.hpp>
 #include "chart.h"
@@ -12,9 +12,9 @@
 #include <set>
 #include <map>
 
-int gbm2gc::run(int argc, const char* argv[])
+int gb2gc::run(int argc, const char* argv[])
 {
-   gbm2gc::options options;
+   gb2gc::options options;
    auto err = options.parse(argc, argv);
    if (err)
       return err;
@@ -22,7 +22,7 @@ int gbm2gc::run(int argc, const char* argv[])
    return 0; // success
 }
 
-nlohmann::json gbm2gc::parse_json(const std::string& file)
+nlohmann::json gb2gc::parse_json(const std::string& file)
 {
    // Due to an issue in google benchmark it will not encode backslashes
    // correctly which forces us to load json as string and do proper escaping
@@ -81,13 +81,13 @@ struct series_object
 };
 
 // Default key selector differentiating on name
-gbm2gc::selector default_selector("name");
+gb2gc::selector default_selector("name");
 
 // Find key selector
-gbm2gc::selector* find_key(std::vector<gbm2gc::selector>& selectors)
+gb2gc::selector* find_key(std::vector<gb2gc::selector>& selectors)
 {
    auto key = std::find_if(selectors.begin(), selectors.end(),
-      [](const gbm2gc::selector& s) { return s.is_parameterized(); });
+      [](const gb2gc::selector& s) { return s.is_parameterized(); });
    if (key == selectors.end())
       return &default_selector;
    return &*key;
@@ -101,7 +101,7 @@ split_attribute(const nlohmann::json::const_iterator bm, const std::string& attr
       throw std::exception(); // TODO Carry message?!
    if (!name->is_string())
       throw std::exception(); // TODO Carry message?!
-   return gbm2gc::split(name->get<std::string>(), '/');
+   return gb2gc::split(name->get<std::string>(), '/');
 }
 
 bool accept(const nlohmann::json::const_iterator bm, const std::vector<std::string>& filter_splits)
@@ -121,12 +121,12 @@ bool accept(const nlohmann::json::const_iterator bm, const std::vector<std::stri
 
 series_object make_series(const nlohmann::json::const_iterator bm_begin,
    const nlohmann::json::const_iterator bm_end,
-   const std::vector<gbm2gc::selector>& selectors,
+   const std::vector<gb2gc::selector>& selectors,
    const std::string& filter)
 {
    series_object so;
 
-   std::vector<std::string> filter_splits = gbm2gc::split(filter, '/');
+   std::vector<std::string> filter_splits = gb2gc::split(filter, '/');
 
    std::string row;
    for (auto it = bm_begin; it != bm_end; ++it)
@@ -187,7 +187,7 @@ series_object make_series(const nlohmann::json::const_iterator bm_begin,
    return so;
 }
 
-gb2gc::data_set gbm2gc::parse_data(const options& options, const nlohmann::json& bm_result)
+gb2gc::data_set gb2gc::parse_data(const options& options, const nlohmann::json& bm_result)
 {
    gb2gc::data_set ds;
 
@@ -264,7 +264,7 @@ gb2gc::data_set gbm2gc::parse_data(const options& options, const nlohmann::json&
    return ds;
 }
 
-void gbm2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
+void gb2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
 {
    // Generate chart
    gb2gc::googlechart gc;

@@ -15,10 +15,10 @@ void reset(std::basic_stringstream<Char, Traits, Allocator>& ss)
    ss.swap(temp);
 }
 
-class gbm2gc_variant_test : public ::testing::Test
+class gb2gc_variant_test : public ::testing::Test
 { };
 
-TEST_F(gbm2gc_variant_test,
+TEST_F(gb2gc_variant_test,
    to_string__should_convert_variant_to_string__if_valid)
 {
    EXPECT_EQ(to_string(null_value()), "'null'");
@@ -33,7 +33,7 @@ void assert_string_conversion(std::stringstream& ss, T value)
    reset(ss);
 }
 
-TEST_F(gbm2gc_variant_test,
+TEST_F(gb2gc_variant_test,
    output_stream_operator__should_convert_variant_to_string__if_valid)
 {
    std::stringstream ss;

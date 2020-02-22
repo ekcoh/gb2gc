@@ -8,13 +8,13 @@
 
 using namespace gb2gc;
 
-class chart_test : public ::testing::Test
+class gb2gc_chart_test : public ::testing::Test
 {
    void SetUp()
    { }
 };
 
-TEST_F(chart_test, xxx)
+TEST_F(gb2gc_chart_test, xxx)
 {
    const char path[] = "mytchart.html";
 
@@ -59,3 +59,4 @@ TEST_F(chart_test, xxx)
 
    //system(path);
 }
+

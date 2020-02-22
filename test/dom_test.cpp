@@ -8,10 +8,10 @@
 
 using namespace gb2gc;
 
-class dom_test : public ::testing::Test
+class gb2gc_dom_test : public ::testing::Test
 { 
 public:
-   dom_test() : root("root") { }
+    gb2gc_dom_test() : root("root") { }
 
    void given_basic_dom()
    {
@@ -24,7 +24,7 @@ public:
    element root;
 };
 
-TEST_F(dom_test, children__should_return_all_children)
+TEST_F(gb2gc_dom_test, children__should_return_all_children)
 {
    EXPECT_TRUE(root.children().empty());
    
@@ -34,7 +34,7 @@ TEST_F(dom_test, children__should_return_all_children)
    EXPECT_EQ(root.children()[1].name(), "child2");
 }
 
-TEST_F(dom_test, attributes__should_return_all_attributes)
+TEST_F(gb2gc_dom_test, attributes__should_return_all_attributes)
 {
    given_basic_dom();
 
@@ -48,7 +48,7 @@ TEST_F(dom_test, attributes__should_return_all_attributes)
    EXPECT_EQ(child2->attributes().size(), 0);
 }
 
-TEST_F(dom_test, write_dom__should_convert_dom_to_formatted_string__if_valid)
+TEST_F(gb2gc_dom_test, write_dom__should_convert_dom_to_formatted_string__if_valid)
 {
    given_basic_dom();
 
@@ -67,7 +67,7 @@ TEST_F(dom_test, write_dom__should_convert_dom_to_formatted_string__if_valid)
    EXPECT_STREQ(ss.str().c_str(), expected);
 }
 
-TEST_F(dom_test, write_dom__should_use_passed_format_and_level__if_valid)
+TEST_F(gb2gc_dom_test, write_dom__should_use_passed_format_and_level__if_valid)
 {
    given_basic_dom();
 

@@ -3,12 +3,12 @@
 // root directory of this distribution.
 
 #include <gtest/gtest.h>
-#include "gbm2gc.h"
+#include "gb2gc.h"
 #include "redirect.h"
 
-using namespace gbm2gc;
+using namespace gb2gc;
 
-class gbm2gc_options_test : public ::testing::Test
+class gb2gc_options_test : public ::testing::Test
 {
 public:
    void SetUp()
@@ -21,9 +21,9 @@ public:
    static const char* valid_args_required_last[];
 };
 
-const char* gbm2gc_options_test::valid_args_required_last[] =
+const char* gb2gc_options_test::valid_args_required_last[] =
 {
-   "gbm2gc",
+   "gb2gc",
    "-h", "720",
    "-w", "480",
    "-t", "my title",
@@ -32,9 +32,9 @@ const char* gbm2gc_options_test::valid_args_required_last[] =
    "-c", "scatter"
 };
 
-const char* gbm2gc_options_test::valid_args_required_first[] =
+const char* gb2gc_options_test::valid_args_required_first[] =
 {
-   "gbm2gc",
+   "gb2gc",
    "-c", "line",
    "-i", "input_file",
    "-o", "output_file",
@@ -45,9 +45,9 @@ const char* gbm2gc_options_test::valid_args_required_first[] =
    "-s", "name/2", "cpu_time"
 };
 
-TEST_F(gbm2gc_options_test, parse__should_be_successful__if_valid_args)
+TEST_F(gb2gc_options_test, parse__should_be_successful__if_valid_args)
 {
-   EXPECT_EQ(opt.parse(18, gbm2gc_options_test::valid_args_required_first), 0);
+   EXPECT_EQ(opt.parse(18, gb2gc_options_test::valid_args_required_first), 0);
 
    EXPECT_EQ(opt.in_file(), "input_file");
    EXPECT_EQ(opt.out_file(), "output_file");
@@ -62,9 +62,9 @@ TEST_F(gbm2gc_options_test, parse__should_be_successful__if_valid_args)
    EXPECT_FALSE(opt.selectors()[1].is_parameterized());
 }
 
-TEST_F(gbm2gc_options_test, parse__should_succeed__if_only_specifying_required_args)
+TEST_F(gb2gc_options_test, parse__should_succeed__if_only_specifying_required_args)
 {
-   EXPECT_EQ(opt.parse(7, gbm2gc_options_test::valid_args_required_first), 0);
+   EXPECT_EQ(opt.parse(7, gb2gc_options_test::valid_args_required_first), 0);
 
    EXPECT_EQ(opt.in_file(), "input_file");
    EXPECT_EQ(opt.out_file(), "output_file");
@@ -81,19 +81,19 @@ TEST_F(gbm2gc_options_test, parse__should_succeed__if_only_specifying_required_a
    EXPECT_FALSE(opt.selectors()[2].is_parameterized());
 }
 
-TEST_F(gbm2gc_options_test, parse__should_fail__if_zero_args)
+TEST_F(gb2gc_options_test, parse__should_fail__if_zero_args)
 {
-   EXPECT_NE(opt.parse(0, gbm2gc_options_test::valid_args_required_first), 0);
+   EXPECT_NE(opt.parse(0, gb2gc_options_test::valid_args_required_first), 0);
 }
 
-TEST_F(gbm2gc_options_test, parse__should_fail__if_nullptr_argv)
+TEST_F(gb2gc_options_test, parse__should_fail__if_nullptr_argv)
 {
    EXPECT_NE(opt.parse(0, nullptr), 0);
 }
 
-TEST_F(gbm2gc_options_test, parse__should_fail__if_missing_required_arg)
+TEST_F(gb2gc_options_test, parse__should_fail__if_missing_required_arg)
 {
-   EXPECT_NE(opt.parse(3, gbm2gc_options_test::valid_args_required_first), 0);
+   EXPECT_NE(opt.parse(3, gb2gc_options_test::valid_args_required_first), 0);
 }
 
 // TODO Setup stream redirect to verify error messages

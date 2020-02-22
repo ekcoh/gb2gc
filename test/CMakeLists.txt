@@ -4,8 +4,8 @@
 
 # Unit test executable
 add_executable(${PROJECT_NAME}_unit_tests 
-   "${PROJECT_SOURCE_DIR}/src/gbm2gc.h"
-	"${PROJECT_SOURCE_DIR}/src/gbm2gc.cpp"
+    "${PROJECT_SOURCE_DIR}/src/gb2gc.h"
+	"${PROJECT_SOURCE_DIR}/src/gb2gc.cpp"
 	"${PROJECT_SOURCE_DIR}/src/selector.cpp"
 	"${PROJECT_SOURCE_DIR}/src/options.cpp"
 	"${PROJECT_SOURCE_DIR}/src/chart.cpp"
@@ -13,12 +13,12 @@ add_executable(${PROJECT_NAME}_unit_tests
 	"${PROJECT_SOURCE_DIR}/src/dom.cpp"
 	
 	 
-   "chart_test.cpp"
-   "data_set_test.cpp"
-   "dom_test.cpp" 
-	"gbm2gc_test.cpp"
+    "chart_test.cpp"
+    "data_set_test.cpp"
+    "dom_test.cpp" 
+    "gb2gc_test.cpp"
 	"main.cpp"
-   "options_test.cpp"
+    "options_test.cpp"
 	"selector_test.cpp"
 	"variant_test.cpp"
 )
