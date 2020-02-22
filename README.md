@@ -77,4 +77,4 @@ Which shows the following HTML:
 
 ## CMake usage
 
-TBD
+Using gb2gc from within CMake is even easier than using it from command-line. Just setup a benchmark project as usual as described by [Google Benchmark documentation](https://github.com/google/benchmark) and use gb2gc_add_benchmark CMake function to create a target for running the benchmark. Use gb2gc_add_benchmark_chart to setup a target for generating a chart from the output of given benchmark run target.
