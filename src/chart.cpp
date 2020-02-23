@@ -81,19 +81,19 @@ void gb2gc::detail::write_axis(std::ostream& os, const format& /*fmt*/,
     bool write = false;
     if (!axis.title.empty())
     {
-        if (write) os << ",";
+        if (write) os << ',';
         os << " title: '" << axis.title << '\'';
         write = true;
     }
     if (axis.min_value.index() != 0)
     {
-        if (write) os << ",";
+        if (write) os << ',';
         os << " minValue: " << axis.min_value;
         write = true;
     }
     if (axis.max_value.index() != 0)
     {
-        if (write) os << ",";
+        if (write) os << ',';
         os << " maxValue: " << axis.max_value;
         write = true;
     }

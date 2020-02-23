@@ -1,10 +1,6 @@
-// Copyright(C) 2019 - 2020 Håkan Sidenvall <ekcoh.git@gmail.com>.
-// This file is subject to the license terms in the LICENSE file found in the 
-// root directory of this distribution.
+// Contains two basic benchmark sequencies for memcpy and memmove
 
 #include <benchmark/benchmark.h>
-
-#include <set> // std::set
 
 int main(int argc, char** argv)
 {
@@ -25,7 +21,7 @@ static void BM_memcpy(benchmark::State& state)
    delete[] src;
    delete[] dst;
 }
-BENCHMARK(BM_memcpy)->Arg(8)->Arg(64)->Arg(512)->Arg(1 << 10)->Arg(8 << 10);
+BENCHMARK(BM_memcpy)->Arg(8)->Arg(64)->Arg(512)->Arg(4096);
 
 static void BM_memmove(benchmark::State& state)
 {
@@ -38,4 +34,4 @@ static void BM_memmove(benchmark::State& state)
    delete[] src;
    delete[] dst;
 }
-BENCHMARK(BM_memmove)->Arg(8)->Arg(64)->Arg(512)->Arg(1 << 10)->Arg(8 << 10);
+BENCHMARK(BM_memmove)->Arg(8)->Arg(64)->Arg(512)->Arg(4096);

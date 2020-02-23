@@ -132,7 +132,7 @@ function(gb2gc_add_benchmark)
     ###########################################################################
     # Custom target: run target binary
 
-    add_custom_target(${BENCHMARK_TARGET}_run
+    add_custom_target(${GB2GC_TARGET}_run
         COMMENT "Running benchmark ${BENCHMARK_TARGET}..."
 	    COMMAND ${CMAKE_COMMAND} -E echo "Running benchmark ${BENCHMARK_TARGET}..."
 	    DEPENDS ${GB2GC_OUT}
@@ -198,8 +198,8 @@ function(gb2gc_add_benchmark_chart)
    cmake_parse_arguments(
         GB2GC
         ""
-        "INPUT;OUTPUT;WORKING_DIRECTORY;TITLE;WIDTH;HEIGHT"
-        "ARGS"
+        "TARGET;INPUT;OUTPUT;WORKING_DIRECTORY;TITLE;WIDTH;HEIGHT;LEGEND;TYPE;XAXIS;YAXIS;FILTER"
+        "SELECT"
         ${ARGN}
     )
 
@@ -208,12 +208,9 @@ function(gb2gc_add_benchmark_chart)
     if (NOT GB2GC_WORKING_DIRECTORY)
       set(GB2GC_WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endif()
-    if (NOT GB2GC_INPUT)
-        set(GB2GC_INPUT "mybenchmark.json")
+    if (NOT GB2GC_TARGET)
+        message(FATAL_ERROR "ERROR: Missing required option 'TARGET'")
     endif()
-
-    message(status ": GB2GC_INPUT=${GB2GC_INPUT}") # Verbose
-    message(status ": GB2GC_WORKING_DIRECTORY=${GB2GC_WORKING_DIRECTORY}") # Verbose
 
     ###########################################################################
     # Assert HTML/chart (CHART prefixed) options
@@ -225,10 +222,18 @@ function(gb2gc_add_benchmark_chart)
         set(GB2GC_OUTPUT "${GB2GC_OUTPUT_NAME_WE}.html")
     endif()
 
-    if (NOT GB2GC_ARGS)
-      list(APPEND GB2GC_ARGS "-c" "bar")
-      list(APPEND GB2GC_ARGS "-i" "${GB2GC_INPUT}")
-      list(APPEND GB2GC_ARGS "-o" "${GB2GC_OUTPUT}")
+    #if (NOT GB2GC_ARGS)
+    #  list(APPEND GB2GC_ARGS "-c" "bar")
+    #  list(APPEND GB2GC_ARGS "-i" "${GB2GC_INPUT}")
+    #  list(APPEND GB2GC_ARGS "-o" "${GB2GC_OUTPUT}")
+    #endif()
+
+    list(APPEND GB2GC_ARGS "-o" "${GB2GC_OUTPUT}")
+
+    if (NOT GB2GC_INPUT)
+        message(FATAL_ERROR "ERROR: Missing required option 'INPUT'")
+    else()
+        list(APPEND GB2GC_ARGS "-i" "${GB2GC_INPUT}")
     endif()
 
     if (GB2GC_TITLE)
@@ -241,8 +246,26 @@ function(gb2gc_add_benchmark_chart)
     if (GB2GC_HEIGHT)
         list(APPEND GB2GC_ARGS "-h" "${GB2GC_HEIGHT}")
     endif()
-
-    message(status ": GB2GC_ARGS=${GB2GC_ARGS}") # Verbose
+    if (GB2GC_LEGEND)
+        list(APPEND GB2GC_ARGS "-l" "${GB2GC_LEGEND}")
+    endif()
+    if (GB2GC_TYPE)
+        list(APPEND GB2GC_ARGS "-c" "${GB2GC_TYPE}")
+    else()
+        list(APPEND GB2GC_ARGS "-c" "bar") # Consider defaulting from CLI tool?
+    endif()
+    if (GB2GC_XAXIS)
+        list(APPEND GB2GC_ARGS "-x" "${GB2GC_XAXIS}")
+    endif()
+    if (GB2GC_YAXIS)
+        list(APPEND GB2GC_ARGS "-y" "${GB2GC_YAXIS}")
+    endif()
+    if (GB2GC_FILTER)
+        list(APPEND GB2GC_ARGS "-f" "${GB2GC_FILTER}")
+    endif()
+    if (GB2GC_SELECT)
+        list(APPEND GB2GC_ARGS "-s" "${GB2GC_SELECT}")
+    endif()
 
     ###########################################################################
     # Custom commands
@@ -252,8 +275,8 @@ function(gb2gc_add_benchmark_chart)
 	    OUTPUT ${GB2GC_OUTPUT}
 	    COMMAND $<TARGET_FILE:${PROJECT_NAME}> ${GB2GC_ARGS}
 	    DEPENDS 
-		    ${PROJECT_NAME} 
-		    ${GB2GC_BM_OUT}
+		    gb2gc 
+		    ${GB2GC_INPUT}
 	    WORKING_DIRECTORY ${GB2GC_WORKING_DIRECTORY}
 	    VERBATIM
     )
@@ -262,7 +285,7 @@ function(gb2gc_add_benchmark_chart)
     # Custom targets
 
     # Add target to generate chart
-    add_custom_target(${BENCHMARK_TARGET}_chart
+    add_custom_target(${GB2GC_TARGET}
         COMMENT "Generating chart ${GB2GC_OUTPUT}..."
 	    COMMAND ${CMAKE_COMMAND} -E echo "Generating chart..."
 	    DEPENDS ${GB2GC_OUTPUT} 
