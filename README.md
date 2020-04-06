@@ -1,3 +1,4 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/rw18p9p9h924o4qo?svg=true)](https://ci.appveyor.com/project/ekcoh/gb2gc)
 # gb2gc (Google Benchmark to Google Chart)
 
 ## Introduction
