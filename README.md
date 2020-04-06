@@ -1,4 +1,5 @@
-[![Build status](https://ci.appveyor.com/api/projects/status/rw18p9p9h924o4qo?svg=true)](https://ci.appveyor.com/project/ekcoh/gb2gc)
+[![Build status](https://ci.appveyor.com/api/projects/status/rw18p9p9h924o4qo?svg=true)](https://ci.appveyor.com/project/ekcoh/gb2gc)<a href="https://scan.coverity.com/projects/ekcoh-gb2gc"><img alt="Coverity Scan Build Status"  src="https://scan.coverity.com/projects/20779/badge.svg"/></a>
+
 # gb2gc (Google Benchmark to Google Chart)
 
 ## Introduction
