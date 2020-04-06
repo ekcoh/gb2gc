@@ -2,12 +2,12 @@
 
 ## Introduction
 
-This repository provides utilities for converting Google Benchmark JSON output
-into Google Charts for visualization purposes in HTML documentation.
+This repository provides utilities for converting [Google Benchmark](https://github.com/google/benchmark)
+JSON output into [Google Charts](https://developers.google.com/chart) JavaScript and HTML for visualization purposes.
 This makes it possible to e.g. incorporate generation of micro-benchmark charts
-as part of build-time generation. CMake functions to simplify adding benchmarks
-to existing CMake projects are provided which makes it easy to integrate into
-continuous integration (CI) or generated documentation.
+as part of automated build-time actions. CMake functions are also provided to simplify adding benchmarks
+to your existing CMake projects in order to more easily integrate into your own continuous integration (CI) 
+or documentation generation functions.
 
 ## Features
 - CLI support for converting existing Google Benchmark JSON files to HTML.
