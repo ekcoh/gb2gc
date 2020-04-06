@@ -15,11 +15,8 @@ or documentation generation functions.
 - Support for adding CMake target to convert benchmark JSON to HTML charts via gb2gc_add_benchmark.
 - Support for incorporating benchmark related targets into build-time activities
   similar to how tests are supported in CMake via add_test.
-- Chart customization support, including:
-    - Custom chart title via TITLE argument.
-    - Custom chart width via WIDTH argument.
-    - Custom chart height via HEIGHT argument.
-    - Custom data slicing via data Selector concept (See below).
+- Chart customization support, including custom title, width, height, colors etc.
+- Custom data slicing via the Selector concept (See below).
 
 ## Command-line usage
 
