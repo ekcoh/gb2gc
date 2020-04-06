@@ -11,14 +11,14 @@ using namespace gb2gc;
 class gb2gc_options_test : public ::testing::Test
 {
 public:
-   void SetUp()
-   {
-      // Currently empty
-   }
+    void SetUp()
+    {
+        // Currently empty
+    }
 
-   options opt;
-   static const char* valid_args_required_first[];
-   static const char* valid_args_required_last[];
+    options opt;
+    static const char* valid_args_required_first[];
+    static const char* valid_args_required_last[];
 };
 
 const char* gb2gc_options_test::valid_args_required_last[] =

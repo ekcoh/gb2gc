@@ -24,7 +24,7 @@ public:
    element root;
 };
 
-TEST_F(gb2gc_dom_test, children__should_return_all_children)
+TEST_F(gb2gc_dom_test, children__should_return_all_children__if_previously_added)
 {
    EXPECT_TRUE(root.children().empty());
    
@@ -34,7 +34,7 @@ TEST_F(gb2gc_dom_test, children__should_return_all_children)
    EXPECT_EQ(root.children()[1].name(), "child2");
 }
 
-TEST_F(gb2gc_dom_test, attributes__should_return_all_attributes)
+TEST_F(gb2gc_dom_test, attributes__should_return_all_attributes__if_previously_added)
 {
    given_basic_dom();
 

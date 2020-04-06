@@ -54,7 +54,7 @@ namespace gb2gc
    {
    public:
       // Constructs a selector that selects data with a regular key or of the form
-      //  'BM_Identifier/<index>' where 'BM_Identifier' is the name of the benchmark
+      // 'BM_Identifier/<index>' where 'BM_Identifier' is the name of the benchmark
       // and <index> is the index of the benchmark parameter to be selected.
       selector(const std::string& key);
 

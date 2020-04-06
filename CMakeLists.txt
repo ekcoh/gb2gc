@@ -2,124 +2,92 @@
 # This file is subject to the license terms in the LICENSE file found in the 
 # root directory of this distribution.
 
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.11)
+
+include(FetchContent)   # Requires CMake 3.11+
 
 ###################################################################################################
-# Download and unpack Google test  at configure time
-configure_file(external/gtest/CMakeLists.txt.in external/gtest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/gtest-download )
-if(result)
-  message(FATAL_ERROR "CMake step for Google Test (gtest) failed: ${result}")
+# Download and unpack Google Test at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.10.0
+)
+FetchContent_GetProperties(googletest)
+if(NOT googletest_POPULATED)
+  FetchContent_Populate(googletest)
+  if (WIN32)
+    # Prevent overriding the parent project's compiler/linker
+    # settings on Windows
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  endif()
+  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/gtest-download )
-if(result)
-  message(FATAL_ERROR "Build step for Google Test (gtest) failed: ${result}")
-endif()
-
-# Prevent overriding the parent project's compiler/linker
-# settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-# Add gtest directly to our build. This defines
-# the gtest and gtest_main targets.
-add_subdirectory(${CMAKE_BINARY_DIR}/external/gtest-src
-                 ${CMAKE_BINARY_DIR}/external/gtest-build
-                 EXCLUDE_FROM_ALL)
-
-#list(APPEND GB2GC_THIRD_PARTY_LICENSES ${CMAKE_BINARY_DIR}/external/gtest-src/LICENSE)
-#list(APPEND GB2GC_THIRD_PARTY_URLS )
 
 ###################################################################################################
-# Download and unpack Google Benchmark at configure time
-configure_file(external/benchmark/CMakeLists.txt.in external/benchmark-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/benchmark-download )
-if(result)
-  message(FATAL_ERROR "CMake step for Google Benchmark (benchmark) failed: ${result}")
+# Download and unpack Google Benchmark at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+FetchContent_Declare(
+  benchmark
+  GIT_REPOSITORY https://github.com/google/benchmark.git
+  GIT_TAG        v1.4.1
+)
+FetchContent_GetProperties(benchmark)
+if(NOT benchmark_POPULATED)
+  FetchContent_Populate(benchmark)
+  if (WIN32)
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+  endif()
+  add_subdirectory(${benchmark_SOURCE_DIR} ${benchmark_BINARY_DIR})
 endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/benchmark-download )
-if(result)
-  message(FATAL_ERROR "Build step for Google Benchmark (benchmark) failed: ${result}")
-endif()
-
-set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-
-add_subdirectory(${CMAKE_BINARY_DIR}/external/benchmark-src
-                 ${CMAKE_BINARY_DIR}/external/benchmark-build
-                 EXCLUDE_FROM_ALL)
 
 ###################################################################################################
-# Download and unpack JSON parser at configure time
-configure_file(external/json/CMakeLists.txt.in external/json-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/json-download )
-if(result)
-  message(FATAL_ERROR "CMake step for json failed: ${result}")
+# Download and unpack JSON for Modern C++ at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+FetchContent_Declare(
+  json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG        v3.7.3
+)
+FetchContent_GetProperties(json)
+if(NOT json_POPULATED)
+  FetchContent_Populate(json)
+  set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
+  set(JSON_Install OFF CACHE BOOL "" FORCE)
+  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR})
 endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/json-download )
-if(result)
-  message(FATAL_ERROR "Build step for json failed: ${result}")
-endif()
-
-set(JSON_BuildTests OFF CACHE BOOL "" FORCE)
-set(JSON_Install OFF CACHE BOOL "" FORCE)
-
-add_subdirectory(${CMAKE_BINARY_DIR}/external/json-src
-                 ${CMAKE_BINARY_DIR}/external/json-build
-                 EXCLUDE_FROM_ALL)
 
 ###################################################################################################
-# Download and unpack variant-lite at configure time
-configure_file(external/variant_lite/CMakeLists.txt.in external/variant_lite-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/variant_lite-download )
-if(result)
-  message(FATAL_ERROR "CMake step for variant_lite failed: ${result}")
+# Download and unpack variant-lite at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+FetchContent_Declare(
+  variant_lite
+  GIT_REPOSITORY https://github.com/martinmoene/variant-lite.git
+  GIT_TAG        v1.2.1
+)
+FetchContent_GetProperties(variant_lite)
+if(NOT variant_lite_POPULATED)
+  FetchContent_Populate(variant_lite)
+  add_subdirectory(${variant_lite_SOURCE_DIR} ${variant_lite_BINARY_DIR})
 endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/variant_lite-download )
-if(result)
-  message(FATAL_ERROR "Build step for variant_lite failed: ${result}")
-endif()
-
-add_subdirectory(${CMAKE_BINARY_DIR}/external/variant_lite-src
-                 ${CMAKE_BINARY_DIR}/external/variant_lite-build
-                 EXCLUDE_FROM_ALL)
 
 ###################################################################################################
-# Download and unpack optional-lite at configure time
-configure_file(external/optional_lite/CMakeLists.txt.in external/optional_lite-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/optional_lite-download )
-if(result)
-  message(FATAL_ERROR "CMake step for variant_lite failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/external/optional_lite-download )
-if(result)
-  message(FATAL_ERROR "Build step for variant_lite failed: ${result}")
-endif()
-
-add_subdirectory(${CMAKE_BINARY_DIR}/external/optional_lite-src
-                 ${CMAKE_BINARY_DIR}/external/optional_lite-build
-                 EXCLUDE_FROM_ALL)
+# Download and unpack optional-lite at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+#FetchContent_Declare(
+#  optional_lite
+#  GIT_REPOSITORY https://github.com/martinmoene/optional-lite.git
+#  GIT_TAG        v3.2.0
+#)
+#FetchContent_GetProperties(optional_lite)
+#if(NOT optional_lite_POPULATED)
+# FetchContent_Populate(optional_lite)
+#  add_subdirectory(${optional_lite_SOURCE_DIR} ${optional_lite_BINARY_DIR})
+#endif()
 
 ###################################################################################################
-# gb2gc
+# gb2gc project
 project(gb2gc
 	VERSION 0.1.0
 	DESCRIPTION "Basic command-line tool to convert Google Benchmark json output to Google Charts"
@@ -127,22 +95,26 @@ project(gb2gc
 	LANGUAGES CXX
 )
 
+# CMake functions to simplify usage
 include(cmake/add_benchmark.cmake)
-include(cmake/add_binary_dir_copy.cmake)
 
 # Define a upper case variable to carry upper case project name for variable definitions
 string(TOUPPER ${PROJECT_NAME} PROJECT_NAME_UCASE)
 
+# Project options
 option(GB2GC_BUILD_TESTS    "Enable building tests" ON)
 option(GB2GC_CODE_COVERAGE  "Enable the code coverage build option." OFF)
-option(GB2GC_INSTALL        "Enable the installation of targets." ON)
+option(GB2GC_BUILD_ZIP      "Enable to generate ZIP distribution." OFF)
 option(GB2GC_BUILD_EXAMPLES "Enable building examples" ON)
 
 if (NOT GB2GC_BUILD_TESTS AND GB2GC_CODE_COVERAGE)
-	message(WARNING "Cannot generate code coverage without building tests. Tests will be disabled.")
-    set(FGB2GC_BUILD_TESTS OFF)
+	message(FATAL_ERROR "Cannot generate code coverage without building tests. "
+    "Set GB2GC_BUILD_TESTS to ON in order to build tests.")
 endif()
 
+# Use a variable for source (instead of target_sources from src) only to allow
+# unit testing headers and translation units directly which is more convenient
+# a CLI tool with plenty of internal complexity.
 set(GB2GC_SOURCE_FILES 
 	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.h"
 	"${CMAKE_CURRENT_LIST_DIR}/src/gb2gc.cpp"
@@ -155,9 +127,11 @@ set(GB2GC_SOURCE_FILES
     "${CMAKE_CURRENT_LIST_DIR}/src/variant.h"   
 )
 
+###################################################################################################
+# gb2gc executable target
 add_executable(${PROJECT_NAME}
-	${GB2GC_SOURCE_FILES}
-    "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
+	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
+    ${GB2GC_SOURCE_FILES}
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_11)
@@ -182,7 +156,6 @@ endif(MSVC)
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE nlohmann_json::nlohmann_json
 	PRIVATE nonstd::variant-lite
-#   PRIVATE optional_lite
 )
 
 if (GB2GC_BUILD_TESTS)
@@ -194,6 +167,7 @@ if (GB2GC_BUILD_EXAMPLES)
 	add_subdirectory(example)
 endif()
 
+# Custom target to create a ZIP package for distribution
 add_custom_target(${PROJECT_NAME}_zip_package
 	COMMAND ${CMAKE_COMMAND} -E echo "Creating zip distribution..."
 	COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/README.md" ${CMAKE_CURRENT_BINARY_DIR}/.

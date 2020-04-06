@@ -93,7 +93,8 @@ namespace gb2gc
       float              data_opacity = 1.0f;
       float              point_size = 0.0f;
       bool               interpolate_nulls = false;
-      // colors: ['green']
+      
+      // Consisder adding more, e.g.....
       // histogram: { bucketSize: 10000000 }
       axis horizontal_axis;
       axis vertical_axis;

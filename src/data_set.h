@@ -14,7 +14,7 @@ namespace gb2gc {
 
 template<typename T, typename = void>
 struct is_iterator
-{
+{   // base case
     static constexpr bool value = false;
 };
 

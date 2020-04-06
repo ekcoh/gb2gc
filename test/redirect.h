@@ -24,7 +24,7 @@ struct redirect_guard
    }
 
 private:
-   std::ostream& target;
+   std::ostream&    target;
    std::streambuf * old;
 };
 

@@ -5,31 +5,32 @@
 #include "dom.h"
 #include <algorithm>
 
-namespace
+namespace {
+
+std::ostream& format_attribute(std::ostream& os, const gb2gc::format&,
+    const gb2gc::element::attribute& attr)
 {
-   std::ostream& format_attribute(std::ostream& os, const gb2gc::format&,
-      const gb2gc::element::attribute& attr)
-   {
-      os << ' ' << attr.first << "=\"" << attr.second << '"';
-      return os;
-   }
-
-   void write_content(std::ostream& os, const gb2gc::format& fmt,
-      size_t level, const std::string& in)
-   {
-      std::istringstream ss(in);
-      std::string line;
-      while (getline(ss, line))
-         os << gb2gc::indent{ fmt, level } << line << '\n';
-   }
-
-   std::ostream& close_element(std::ostream& os, const gb2gc::format& fmt,
-      size_t level, const gb2gc::element& e)
-   {
-      os << '\n' << fmt.indent(level) << "</" << e.name() << '>' << '\n';
-      return os;
-   }
+    os << ' ' << attr.first << "=\"" << attr.second << '"';
+    return os;
 }
+
+void write_content(std::ostream& os, const gb2gc::format& fmt,
+    size_t level, const std::string& in)
+{
+    std::istringstream ss(in);
+    std::string line;
+    while (getline(ss, line))
+        os << gb2gc::indent{ fmt, level } << line << '\n';
+}
+
+std::ostream& close_element(std::ostream& os, const gb2gc::format& fmt,
+    size_t level, const gb2gc::element& e)
+{
+    os << '\n' << fmt.indent(level) << "</" << e.name() << '>' << '\n';
+    return os;
+}
+
+} // namespace
 
 // Indentation formatting
 

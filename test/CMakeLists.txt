@@ -37,6 +37,17 @@ target_link_libraries(gb2gc_unit_tests
 	PRIVATE variant-lite
 )
 
+# Simple function just to cut down on boilerplate in test CMakeLists.txt
+function(gb2gc_add_binary_dir_copy TARGET FILENAME)
+    add_custom_command(TARGET gb2gc_copy_test_data
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different 
+            "${CMAKE_CURRENT_SOURCE_DIR}/data/${FILENAME}"
+            ${CMAKE_CURRENT_BINARY_DIR}
+        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/data/${FILENAME}"
+        VERBATIM
+    )
+endfunction()
+
 add_custom_target(gb2gc_copy_test_data)
 gb2gc_add_binary_dir_copy(gb2gc_unit_tests benchmark1.json)
 gb2gc_add_binary_dir_copy(gb2gc_unit_tests benchmark2.json)
@@ -45,4 +56,4 @@ gb2gc_add_binary_dir_copy(gb2gc_unit_tests bar.html)
 gb2gc_add_binary_dir_copy(gb2gc_unit_tests histogram.html)
 add_dependencies(gb2gc_unit_tests gb2gc_copy_test_data)
 
-add_test(NAME gb2gc_unit_tests COMMAND ${PROJECT_NAME}_unit_tests )
+add_test(NAME gb2gc_unit_tests COMMAND gb2gc_unit_tests )

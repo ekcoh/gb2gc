@@ -4,7 +4,7 @@
 # root directory of this distribution.
 #
 # See https://github.com/ekcoh/gb2gc for updates, documentation, and revision 
-# history.
+# history. 
 
 # gb2gc_add_benchmark
 #

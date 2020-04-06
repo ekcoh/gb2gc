@@ -11,11 +11,7 @@
 
 using namespace gb2gc;
 
-class gb2gc_data_set_test : public ::testing::Test
-{
-   void SetUp()
-   { }
-};
+class gb2gc_data_set_test : public ::testing::Test { };
 
 TEST_F(gb2gc_data_set_test, is_iterator__should_return_true__if_type_is_iterator)
 {
@@ -65,12 +61,3 @@ TEST_F(gb2gc_data_set_test, usage__replace_with_better_tests)
    EXPECT_TRUE(it == ds.row_end());
 }
 
-TEST_F(gb2gc_data_set_test, xxx)
-{
-   //data_set ds;
-   //ds.reserve_cols(3);
-   //ds.reserve_rows(3);
-   //ds.
-
-
-}

@@ -60,7 +60,7 @@ bool is_option(const char* arg)
 }
 
 const std::vector<gb2gc::selector> gb2gc::options::default_selectors(
-   {
+   {  // based on default metrics from Google benchmark
       selector("name"),		// X (key)
       selector("cpu_time"),	// Y
       selector("real_time")	// Z

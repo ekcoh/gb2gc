@@ -271,6 +271,7 @@ void gb2gc::write_chart(const options& options, const gb2gc::data_set& data_set)
    gc.options = options.chart_options();
    gc.type = options.chart_type();
 
+   // Google chart swaps axes for bar chart
    if (options.chart_type() == gb2gc::googlechart::visualization::bar)
       std::swap(gc.options.vertical_axis, gc.options.horizontal_axis);
 

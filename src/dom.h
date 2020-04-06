@@ -73,13 +73,13 @@ public:
     const std::string& name() const;
     const attribute_container& attributes() const;
     const element_container& children() const;
-    bool is_leaf() const;
-    bool has_comment() const;
-    bool has_content() const;
-    bool has_convertible_content() const;
+    bool  is_leaf() const;
+    bool  has_comment() const;
+    bool  has_content() const;
+    bool  has_convertible_content() const;
     const std::string& comment() const;
     const std::string& content() const;
-    void format(std::ostream& os, const format& fmt, size_t level) const;
+    void  format(std::ostream& os, const format& fmt, size_t level) const;
 
 private:
     std::string            name_;

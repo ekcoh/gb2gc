@@ -6,13 +6,14 @@
 
 int main(int argc, const char* argv[])
 {
-   try
-   {
-      return gb2gc::run(argc, argv);
-   }
-   catch (const std::exception& e)
-   {
-      std::cerr << "Error: " << e.what() << "\n";
-      return 1;
-   }
+    auto result = 1; // pessimistic
+    try
+    {
+        result = gb2gc::run(argc, argv);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Error: " << e.what() << "\n";
+    }
+    return result;
 }

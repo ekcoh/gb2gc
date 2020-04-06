@@ -2,14 +2,15 @@
 // This file is subject to the license terms in the LICENSE file found in the 
 // root directory of this distribution.
 
-#ifndef GB2GC_SELECTOR_H
-#define GB2GC_SELECTOR_H
-
 #include "gb2gc.h"
 #include "variant.h"
 
+namespace {
+    static constexpr auto param_none = (std::numeric_limits<unsigned>::max)();
+}
+
 gb2gc::selector::selector(const std::string& name) :
-   key_(name), param_index_((std::numeric_limits<unsigned>::max)())
+   key_(name), param_index_(param_none)
 {
    auto splits = split(name, '/');
    if (splits.size() == 2)
@@ -59,7 +60,7 @@ gb2gc::selector::key() const
 bool
 gb2gc::selector::is_parameterized() const
 {
-   return param_index_ != (std::numeric_limits<unsigned>::max)();
+   return param_index_ != param_none;
 }
 
 unsigned
@@ -81,5 +82,3 @@ gb2gc::split(const std::string& s, char delimiter)
    }
    return tokens;
 }
-
-#endif // GB2GC_SELECTOR_H

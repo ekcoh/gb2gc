@@ -4,30 +4,29 @@
 
 This repository provides utilities for converting Google Benchmark JSON output
 into Google Charts for visualization purposes in HTML documentation.
-This makes it possible to e.g. incorporate generation of API cost benchmarks
+This makes it possible to e.g. incorporate generation of micro-benchmark charts
 as part of build-time generation. CMake functions to simplify adding benchmarks
-to existing CMake projects are provided.
+to existing CMake projects are provided which makes it easy to integrate into
+continuous integration (CI) or generated documentation.
 
 ## Features
-
 - CLI support for converting existing Google Benchmark JSON files to HTML.
-- Support for adding CMake target to run benchmark via add_benchmark.
-- Support for adding CMake target to convert benchmark JSON to HTML charts via add_benchmark.
+- Support for adding CMake target to run benchmark via gb2gc_add_benchmark.
+- Support for adding CMake target to convert benchmark JSON to HTML charts via gb2gc_add_benchmark.
 - Support for incorporating benchmark related targets into build-time activities
   similar to how tests are supported in CMake via add_test.
-- Chart customization support:
+- Chart customization support, including:
     - Custom chart title via TITLE argument.
     - Custom chart width via WIDTH argument.
     - Custom chart height via HEIGHT argument.
     - Custom data slicing via data Selector concept (See below).
-    -
 
 ## Command-line usage
 
 A command-line interface (CLI) tool is provided. The source code is written in
-C++11 and should be portable since only dependency is STL functions. The CLI
-interface is provided via gb2gc binary target. Available options can be listed
-by running the tool without given any arguments:
+C++11 and should be portable (not tested outside MSVC & Windows). 
+The CLI interface is provided via gb2gc binary target. Available options can be listed
+by running the tool without giving any arguments, e.g.
 
 ```
 > gb2gc
@@ -61,7 +60,9 @@ Arguments:
   width            The width of the chart in pixels.
 ```
 
-An example of how use the gb2gc command-line tool is given below which converts a benchmark to a bar-chart and provides a custom title. The -v options is provided to open the HTML page directly after successful conversion using the system default program:
+An example of how use the gb2gc command-line tool is given below which converts a benchmark 
+to a bar-chart and provides a custom title. The -v options is provided to open the HTML page 
+directly after successful conversion using the system default program:
 
 ```
 > gb2gc -c bar benchmark.txt -o benchmark.html -t "My benchmark"

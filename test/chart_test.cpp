@@ -21,24 +21,15 @@ public:
         read_file(line, "line.html");
         read_file(bar, "bar.html");
         read_file(histogram, "histogram.html");
-    }
 
-    static void TearDownTestCase()
-    {
-        line.resize(0);
-    }
-
-    void SetUp()
-    {   // These can be moved to SetUpTestCase when a new release of Google Test has been released
-        // See issue: 
         ASSERT_FALSE(line.empty()) << "Failed to read required input file";
         ASSERT_FALSE(bar.empty()) << "Failed to read required input file";
         ASSERT_FALSE(histogram.empty()) << "Failed to read required input file";
     }
 
-    void TearDown()
+    static void TearDownTestCase()
     {
-        //std::remove(path);
+        line.resize(0);
     }
 
     static void read_file(std::string& dst, const std::string& filename)
