@@ -1,3 +1,8 @@
+// Example 01 - Getting started
+//
+// Showcases creating a Google Benchmark binary program and automatically
+// creating run target and chart conversion target.
+
 // Contains two basic benchmark sequencies for memcpy and memmove
 
 #include <benchmark/benchmark.h>
