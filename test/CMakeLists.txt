@@ -56,4 +56,6 @@ gb2gc_add_binary_dir_copy(gb2gc_unit_tests bar.html)
 gb2gc_add_binary_dir_copy(gb2gc_unit_tests histogram.html)
 add_dependencies(gb2gc_unit_tests gb2gc_copy_test_data)
 
-add_test(NAME gb2gc_unit_tests COMMAND gb2gc_unit_tests )
+include(GoogleTest)
+#add_test(NAME gb2gc_unit_tests COMMAND gb2gc_unit_tests )
+gtest_discover_tests(gb2gc_unit_tests)

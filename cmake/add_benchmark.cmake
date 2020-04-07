@@ -116,8 +116,6 @@ function(gb2gc_add_benchmark)
         list(APPEND GB2GC_ARGS "--benchmark_report_aggregates_only=true")
     endif()
 
-    message(status ": GB2GC_ARGS=${GB2GC_ARGS}") # Verbose
-
     ###########################################################################
     # Custom command: generate benchmark output file by running target binary
 

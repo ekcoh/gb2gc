@@ -88,7 +88,7 @@ namespace gb2gc
       std::string        title;
       std::string        font_name;
       position           legend = position::none;
-      curve              curve_type;
+      curve              curve_type = curve::none;
       std::vector<color> colors;
       float              data_opacity = 1.0f;
       float              point_size = 0.0f;
