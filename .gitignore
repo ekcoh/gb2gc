@@ -30,3 +30,6 @@
 # MSVC
 *.vs
 out/
+
+# Common build directory
+build/

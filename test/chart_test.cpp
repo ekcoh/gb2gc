@@ -77,9 +77,9 @@ TEST_F(gb2gc_chart_test, write_html_file__should_create_bar_chart_html_document_
 
     auto x = to_string(gb2gc::variant(1.0));
     const auto len = x.length();
-    ASSERT_GE(len, 2);
+    ASSERT_GE(len, 2u);
     auto precision = len - 2;
-    ASSERT_EQ(precision, 6);
+    ASSERT_EQ(precision, 6u);
 
     googlechart gc;
     gc.type = googlechart::visualization::bar;
@@ -108,9 +108,9 @@ TEST_F(gb2gc_chart_test, write_html_file__should_create_histogram_chart_html_doc
 
     auto x = to_string(gb2gc::variant(1.0));
     const auto len = x.length();
-    ASSERT_GE(len, 2);
+    ASSERT_GE(len, 2u);
     auto precision = len - 2;
-    ASSERT_EQ(precision, 6);
+    ASSERT_EQ(precision, 6u);
 
     googlechart gc;
     gc.type = googlechart::visualization::histogram;

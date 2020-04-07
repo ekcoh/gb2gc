@@ -43,9 +43,9 @@ TEST_F(gb2gc_dom_test, attributes__should_return_all_attributes__if_previously_a
    const auto child2 = root.find_child("child2");
    ASSERT_NE(child1, root.children().end());
    ASSERT_NE(child2, root.children().end());
-   ASSERT_EQ(child1->attributes().size(), 1);
+   ASSERT_EQ(child1->attributes().size(), 1u);
    EXPECT_EQ(child1->attributes()[0], gb2gc::element::attribute("attrib1", "value1"));
-   EXPECT_EQ(child2->attributes().size(), 0);
+   EXPECT_EQ(child2->attributes().size(), 0u);
 }
 
 TEST_F(gb2gc_dom_test, write_dom__should_convert_dom_to_formatted_string__if_valid)
