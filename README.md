@@ -1,13 +1,15 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/rw18p9p9h924o4qo?svg=true)](https://ci.appveyor.com/project/ekcoh/gb2gc)<a href="https://scan.coverity.com/projects/ekcoh-gb2gc"><img alt="Coverity Scan Build Status"  src="https://scan.coverity.com/projects/20779/badge.svg"/></a>
+
 # gb2gc (Google Benchmark to Google Chart)
 
 ## Introduction
 
-This repository provides utilities for converting Google Benchmark JSON output
-into Google Charts for visualization purposes in HTML documentation.
+This repository provides utilities for converting [Google Benchmark](https://github.com/google/benchmark)
+JSON output into [Google Charts](https://developers.google.com/chart) JavaScript and HTML for visualization purposes.
 This makes it possible to e.g. incorporate generation of micro-benchmark charts
-as part of build-time generation. CMake functions to simplify adding benchmarks
-to existing CMake projects are provided which makes it easy to integrate into
-continuous integration (CI) or generated documentation.
+as part of automated build-time actions. CMake functions are also provided to simplify adding benchmarks
+to your existing CMake projects in order to more easily integrate into your own continuous integration (CI) 
+or documentation generation functions.
 
 ## Features
 - CLI support for converting existing Google Benchmark JSON files to HTML.
@@ -15,11 +17,8 @@ continuous integration (CI) or generated documentation.
 - Support for adding CMake target to convert benchmark JSON to HTML charts via gb2gc_add_benchmark.
 - Support for incorporating benchmark related targets into build-time activities
   similar to how tests are supported in CMake via add_test.
-- Chart customization support, including:
-    - Custom chart title via TITLE argument.
-    - Custom chart width via WIDTH argument.
-    - Custom chart height via HEIGHT argument.
-    - Custom data slicing via data Selector concept (See below).
+- Chart customization support, including custom title, width, height, colors etc.
+- Custom data slicing via the Selector concept (See below).
 
 ## Command-line usage
 
