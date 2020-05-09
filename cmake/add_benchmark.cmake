@@ -271,7 +271,7 @@ function(gb2gc_add_benchmark_chart)
     # Add a custom command to generate HTML chart from benchmark output file
     add_custom_command(
 	    OUTPUT ${GB2GC_OUTPUT}
-	    COMMAND $<TARGET_FILE:${PROJECT_NAME}> ${GB2GC_ARGS}
+	    COMMAND $<TARGET_FILE:gb2gc> ${GB2GC_ARGS}
 	    DEPENDS 
 		    gb2gc 
 		    ${GB2GC_INPUT}
