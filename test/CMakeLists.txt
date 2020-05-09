@@ -2,6 +2,28 @@
 # This file is subject to the license terms in the LICENSE file found in the 
 # root directory of this distribution.
 
+###################################################################################################
+# Download and unpack Google Test at configure time if not already available.
+# If made available by parent project use that version and configuration instead.
+FetchContent_Declare(
+  googletest
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG        release-1.10.0
+)
+FetchContent_GetProperties(googletest)
+if(NOT googletest_POPULATED)
+  FetchContent_Populate(googletest)
+  if (WIN32)
+    # Prevent overriding the parent project's compiler/linker
+    # settings on Windows
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  endif()
+  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
+endif()
+
+###################################################################################################
+# gb2gc_unit_tests executable target
+
 add_executable(gb2gc_unit_tests 
     ${GB2GC_SOURCE_FILES}
     "chart_test.cpp"

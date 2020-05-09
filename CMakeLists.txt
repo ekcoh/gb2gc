@@ -7,42 +7,6 @@ cmake_minimum_required (VERSION 3.11)
 include(FetchContent)   # Requires CMake 3.11+
 
 ###################################################################################################
-# Download and unpack Google Test at configure time if not already available.
-# If made available by parent project use that version and configuration instead.
-FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release-1.10.0
-)
-FetchContent_GetProperties(googletest)
-if(NOT googletest_POPULATED)
-  FetchContent_Populate(googletest)
-  if (WIN32)
-    # Prevent overriding the parent project's compiler/linker
-    # settings on Windows
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-  endif()
-  add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
-endif()
-
-###################################################################################################
-# Download and unpack Google Benchmark at configure time if not already available.
-# If made available by parent project use that version and configuration instead.
-FetchContent_Declare(
-  benchmark
-  GIT_REPOSITORY https://github.com/google/benchmark.git
-  GIT_TAG        v1.4.1
-)
-FetchContent_GetProperties(benchmark)
-if(NOT benchmark_POPULATED)
-  FetchContent_Populate(benchmark)
-  if (WIN32)
-    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-  endif()
-  add_subdirectory(${benchmark_SOURCE_DIR} ${benchmark_BINARY_DIR})
-endif()
-
-###################################################################################################
 # Download and unpack JSON for Modern C++ at configure time if not already available.
 # If made available by parent project use that version and configuration instead.
 FetchContent_Declare(
